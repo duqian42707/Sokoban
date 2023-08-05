@@ -570,6 +570,21 @@ const gameData = [{
     boy: '8,5'
 }];
 
+export function getData2(level) {
+    const {tree, box, goal, boy} = gameData[level - 1];
+    const [trees, buckets, spots] = [tree, box, goal].map((data) => {
+        return data.split('|').map(t => t.split(',').map(Number));
+    });
+    const man = boy.split(',').map(Number);
+    return {trees, buckets, spots, man};
+}
+
+/**
+ * tree: 空地
+ * bucket：箱子
+ * spot：目标
+ * man：人
+ */
 export default function getData(level) {
     const {tree, box, goal, boy} = gameData[level - 1];
     const [trees, buckets, spots] = [tree, box, goal].map((data) => {

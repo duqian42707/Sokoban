@@ -8,10 +8,7 @@ module.exports = function (env = {}) {
             path: path.resolve(__dirname, 'js'),
             filename: 'app.js',
             publicPath: '/js/',
-            library: ['Boxman'],
-            libraryTarget: 'umd',
         },
-
         module: {
             rules: [
                 {
@@ -29,10 +26,6 @@ module.exports = function (env = {}) {
 
             /* Advanced module configuration (click to show) */
         },
-
-
-        stats: 'errors-only',
-
         devServer: {
             static: {
                 directory: path.join(__dirname, '.'),
@@ -45,9 +38,5 @@ module.exports = function (env = {}) {
         plugins: [
             // ...
         ],
-        // list of additional plugins
-
-
-        /* Advanced configuration (click to show) */
     };
 };

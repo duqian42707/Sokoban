@@ -1,9 +1,12 @@
-const canvas = wx.createCanvas();
-// const canvas = document.getElementById('game')
+let canvas, imgBorgar
+if (wx) {
+    canvas = wx.createCanvas();
+    imgBorgar = wx.createImage();
+} else {
+    canvas = document.getElementById('game')
+    imgBorgar = new Image();
+}
 const context = canvas.getContext('2d');
-
-const imgBorgar = wx.createImage();
-// const imgBorgar = new Image();
 imgBorgar.src = 'assets/borgar.png';
 
 exports.canvas = canvas;
