@@ -1,2 +1,1 @@
-export const BOUND_X = 15;
-export const BOUND_Y = 10;
+export const BLOCK_WIDTH = 20;

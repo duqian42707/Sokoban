@@ -1,8 +1,4 @@
-import './js/libs/weapp-adapter'
-import './js/libs/symbol'
+import BoxGame from './src/game';
 
-// import Main from './js/main'
-//
-// new Main()
+new BoxGame({});
 
-import './src/index'
