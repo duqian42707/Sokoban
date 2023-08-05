@@ -1,14 +1,14 @@
-let canvas, imgBorgar
+let _canvas, _imgBorgar
 if (wx) {
-    canvas = wx.createCanvas();
-    imgBorgar = wx.createImage();
+    _canvas = wx.createCanvas();
+    _imgBorgar = wx.createImage();
 } else {
-    canvas = document.getElementById('game')
-    imgBorgar = new Image();
+    _canvas = document.getElementById('game')
+    _imgBorgar = new Image();
 }
-const context = canvas.getContext('2d');
-imgBorgar.src = 'assets/borgar.png';
+const _context = _canvas.getContext('2d');
+_imgBorgar.src = 'assets/borgar.png';
 
-exports.canvas = canvas;
-exports.context = context;
-exports.imgBorgar = imgBorgar;
+export const canvas = _canvas;
+export const context = _context;
+export const imgBorgar = _imgBorgar;

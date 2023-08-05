@@ -1,44 +1,28 @@
-import {BLOCK_WIDTH} from "./config";
-import {Block, BlockType} from "./model";
 import {canvas, context, imgBorgar} from "./global";
+import {BlockType} from "./model";
 import getData from "./data";
+import {getMaxXY, wait} from "./utils";
 
 const BACKGROUND_COLOR = '#EAEDF4';
 const MARGIN_TOP = 100;
 export default class BoxGame {
 
-    constructor({}) {
-        this.xsbText = '----#####----------\n' +
-            '----#---#----------\n' +
-            '----#$--#----------\n' +
-            '--###--$##---------\n' +
-            '--#--$-$-#---------\n' +
-            '###-#-##-#---######\n' +
-            '#---#-##-#####--..#\n' +
-            '#-$--$----------..#\n' +
-            '#####-###-#@##--..#\n' +
-            '----#-----#########\n' +
-            '----#######--------';
+    constructor() {
         this.blocks = [];
+        this.BLOCK_WIDTH = 30;
         this.img = imgBorgar;
-        this.init();
-
-    }
-
-    init() {
-        console.log('123')
-        // const {trees, spots, buckets, man} = getData(1);
-        // trees.forEach(([x, y]) => this.addItem('tree', x, y));
-        // spots.forEach(([x, y]) => this.addItem('spot', x, y));
-        // buckets.forEach(([x, y]) => this.addItem('bucket', x, y));
-        // this.addItem('boxman', ...man);
-
-        this.drawBackground();
-        this.parseBlocks(this.xsbText)
-        this.load(1);
         this.img.onload = () => {
             this.draw();
         }
+        this.onLevelComplete = async () => {
+            console.log('success!')
+            await wait(1300);
+            console.log('success2!')
+            await wait(200);
+            console.log('success4!')
+        };
+        this.drawBackground();
+        this.load(23);
     }
 
     drawBackground() {
@@ -46,57 +30,20 @@ export default class BoxGame {
         context.fillRect(0, 0, canvas.width, canvas.height);
     }
 
-    parseBlocks(xsbText) {
-        this.blocks = [];
-        const rows = xsbText.split('\n');
-        this.BOUND_Y = rows.length;
-        for (let i = 0; i < rows.length; i++) {
-            const row = rows[i];
-            const chars = row.split('');
-            this.BOUND_X = chars.length;
-            for (let j = 0; j < chars.length; j++) {
-                const blockType = BlockType.parse(chars[j]);
-                this.blocks.push(new Block(blockType, j, i));
-            }
-        }
-    }
 
     draw() {
         for (let i = 0; i < this.blocks.length; i++) {
             const block = this.blocks[i];
             const blockType = block.type;
-            const x = block.x * BLOCK_WIDTH;
-            const y = MARGIN_TOP + block.y * BLOCK_WIDTH;
-            context.drawImage(this.img, blockType.sourceX, blockType.sourceY, blockType.sourceWidth, blockType.sourceHeight, x, y, BLOCK_WIDTH, BLOCK_WIDTH)
+            const x = block.x * this.BLOCK_WIDTH;
+            const y = MARGIN_TOP + block.y * this.BLOCK_WIDTH;
+            context.drawImage(this.img, blockType.sourceX, blockType.sourceY, blockType.sourceWidth, blockType.sourceHeight, x, y, this.BLOCK_WIDTH, this.BLOCK_WIDTH)
         }
     }
 
-
-    moveTo(item, x, y) {
-        item.dataset.x = x;
-        item.dataset.y = y;
-        item.style.left = `${x * BoxGame.ITEM_WIDTH}px`;
-        item.style.top = `${y * BoxGame.ITEM_WIDTH}px`;
-    }
-
-    addItem(type, x, y) {
-        const item = document.createElement('i');
-        item.className = type;
-
-        if (type === 'boxman') {
-            item.className += ' down';
-        }
-
-        this.moveTo(item, x, y);
-        this.container.appendChild(item);
-    }
 
     get boxman() {
         return this.blocks.find(x => x.type === BlockType.MAN || x.type === BlockType.MAN_ON_GOAL);
-    }
-
-    getXY(item) {
-        return [Number(item.dataset.x), Number(item.dataset.y)];
     }
 
     getItem(x, y) {
@@ -110,17 +57,6 @@ export default class BoxGame {
         throw new Error("程序异常!");
     }
 
-    getSpot(x, y) {
-        const items = this.container.querySelectorAll('.spot');
-        for (let i = 0; i < items.length; i++) {
-            const item = items[i];
-            if (x === Number(item.dataset.x) && y === Number(item.dataset.y)) {
-                return item;
-            }
-        }
-        return null;
-    }
-
     // 判断此位置超出了边界
     isOutOfBound(x, y) {
         return x < 0 || y < 0 || x >= this.BOUND_X || y >= this.BOUND_Y;
@@ -130,22 +66,6 @@ export default class BoxGame {
     isEmpty(x, y) {
         const item = this.getItem(x, y);
         return !this.isOutOfBound(x, y) && (item.type === BlockType.FLOOR || item.type === BlockType.GOAL);
-    }
-
-    /**
-     * 检查某个箱子是否在目标位置上
-     * @param bucket
-     * @returns {boolean}
-     */
-    isAtSpot(bucket) {
-        const spots = this.blocks.filter(x => x.type === BlockType.GOAL)
-        for (let i = 0; i < spots.length; i++) {
-            const spot = spots[i];
-            if (bucket.x === spot.x && bucket.y === spot.y) {
-                return true;
-            }
-        }
-        return false;
     }
 
     async move(direction = 'right') {
@@ -164,8 +84,6 @@ export default class BoxGame {
         } else if (direction === 'down') {
             item = this.getItem(x, y + 1);
         }
-
-        console.log('item:', item)
         if (item.type === BlockType.FLOOR || item.type === BlockType.GOAL) {
             // 人走到空地或目标
             if (this.onmove) this.onmove([boxman], direction);
@@ -177,7 +95,6 @@ export default class BoxGame {
                 || direction === 'up' && this.isEmpty(x, y - 2)
                 || direction === 'down' && this.isEmpty(x, y + 2))) {
             // 人推箱子往前走
-            console.log('人推箱子往前走')
             if (this.onmove) this.onmove([boxman, item], direction);
             boxman.className = `boxman ${direction} walk`;
             await Promise.all([
@@ -215,6 +132,9 @@ export default class BoxGame {
             } else if (item.type === BlockType.BOX) {
                 targetItem.type = BlockType.BOX;
                 item.type = BlockType.FLOOR;
+            } else if (item.type === BlockType.BOX_ON_GOAL) {
+                targetItem.type = BlockType.BOX;
+                item.type = BlockType.GOAL;
             }
         } else if (targetItem.type === BlockType.GOAL) {
             if (item.type === BlockType.MAN) {
@@ -240,11 +160,11 @@ export default class BoxGame {
     }
 
     /**
-     * 游戏胜利检查：是否箱子都在目标位置
+     * 游戏胜利检查：是否箱子都在目标位置，即没有BOX状态，仅有BOX_ON_GOAL状态
      */
     isWin() {
         const buckets = this.blocks.filter(x => x.type === BlockType.BOX);
-        return buckets.every(bucket => this.isAtSpot(bucket));
+        return buckets.length === 0;
     }
 
     waitCommand() {
@@ -276,13 +196,22 @@ export default class BoxGame {
 
 
     async load(level) {
+        this.blocks = getData(level);
+        const {maxX} = getMaxXY(this.blocks);
+        this.BLOCK_WIDTH = ((canvas.width - 50) / (maxX + 1));
+        console.log('BLOCK_WIDTH:', this.BLOCK_WIDTH)
+
         do {
             const direction = await this.waitCommand();
-            console.log('direction', direction)
             if (direction) {
                 await this.move(direction);
             }
         } while (!this.isWin());
+
+        if (this.onLevelComplete) {
+            await this.onLevelComplete(level);
+        }
     }
+
 
 }

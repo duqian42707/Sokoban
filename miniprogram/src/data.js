@@ -1,3 +1,6 @@
+import {Block, BlockType} from "./model";
+import {deleteColumns, deleteRows, getMaxXY, transposition} from "./utils";
+
 const gameData = [{
     tree: '4,7|5,7|6,7|7,7|8,7|9,7|10,7|4,6|10,6|4,5|10,5|4,4|10,4|4,3|5,3|6,3|7,3|8,3|9,3|10,3',
     box: '8,6|6,5|8,5|6,4',
@@ -570,26 +573,99 @@ const gameData = [{
     boy: '8,5'
 }];
 
-export function getData2(level) {
-    const {tree, box, goal, boy} = gameData[level - 1];
-    const [trees, buckets, spots] = [tree, box, goal].map((data) => {
-        return data.split('|').map(t => t.split(',').map(Number));
-    });
-    const man = boy.split(',').map(Number);
-    return {trees, buckets, spots, man};
+
+function parseBlocks(xsbText) {
+    const blocks = [];
+    const rows = xsbText.split('\n');
+    for (let i = 0; i < rows.length; i++) {
+        const row = rows[i];
+        const chars = row.split('');
+        for (let j = 0; j < chars.length; j++) {
+            const blockType = BlockType.parse(chars[j]);
+            blocks.push(new Block(blockType, j, i));
+        }
+    }
+    return blocks;
 }
 
-/**
- * tree: 空地
- * bucket：箱子
- * spot：目标
- * man：人
- */
+
 export default function getData(level) {
     const {tree, box, goal, boy} = gameData[level - 1];
-    const [trees, buckets, spots] = [tree, box, goal].map((data) => {
-        return data.split('|').map(t => t.split(',').map(Number));
-    });
-    const man = boy.split(',').map(Number);
-    return {trees, buckets, spots, man};
+    const dataArray = [];
+    let blocks = [];
+    tree.split('|').forEach(t => {
+        const xy = t.split(',').map(Number);
+        dataArray.push(new Block(BlockType.WALL, xy[0] - 1, xy[1] - 1))
+    })
+    box.split('|').forEach(t => {
+        const xy = t.split(',').map(Number);
+        dataArray.push(new Block(BlockType.BOX, xy[0] - 1, xy[1] - 1))
+    })
+    goal.split('|').forEach(t => {
+        const xy = t.split(',').map(Number);
+        dataArray.push(new Block(BlockType.GOAL, xy[0] - 1, xy[1] - 1))
+    })
+    boy.split('|').forEach(t => {
+        const xy = t.split(',').map(Number);
+        dataArray.push(new Block(BlockType.MAN, xy[0] - 1, xy[1] - 1))
+    })
+
+    let maxXY = getMaxXY(dataArray);
+    console.log(maxXY)
+
+    for (let y = 0; y <= maxXY.maxY; y++) {
+        for (let x = 0; x <= maxXY.maxX; x++) {
+            const target = dataArray.filter(item => item.x === x && item.y === y);
+            if (target.length === 0) {
+                blocks.push(new Block(BlockType.FLOOR, x, y))
+            } else if (target.length === 1) {
+                blocks.push(target[0]);
+            } else {
+                blocks.push(target[0].merge(target[1]));
+            }
+        }
+    }
+
+    // 如果某行或某列都是空白，则删除这一行/列
+    const rowsToDelete = [];
+    for (let y = 0; y <= maxXY.maxY; y++) {
+        let allFloor = true;
+        for (let x = 0; x <= maxXY.maxX; x++) {
+            const block = blocks[y * (maxXY.maxX + 1) + x];
+            if (block.type !== BlockType.FLOOR) {
+                allFloor = false;
+                break;
+            }
+        }
+        if (allFloor) {
+            rowsToDelete.push(y);
+        }
+    }
+
+    const columnsToDelete = [];
+    for (let x = 0; x <= maxXY.maxX; x++) {
+        let allFloor = true;
+        for (let y = 0; y <= maxXY.maxY; y++) {
+            const block = blocks[y * (maxXY.maxX + 1) + x];
+            if (block.type !== BlockType.FLOOR) {
+                allFloor = false;
+                break;
+            }
+        }
+        if (allFloor) {
+            columnsToDelete.push(x);
+        }
+    }
+
+    blocks = deleteRows(blocks, rowsToDelete);
+    blocks = deleteColumns(blocks, columnsToDelete);
+
+    maxXY = getMaxXY(blocks);
+    if (maxXY.maxX > maxXY.maxY) {
+        // 如果宽比高大，进行行列转换，方便竖屏显示
+        blocks = transposition(blocks);
+    }
+    console.log(blocks)
+
+    return blocks;
 }

@@ -50,4 +50,16 @@ export class Block {
         this.y = y;
     }
 
+    merge(another) {
+        if (this.x === another.x && this.y === another.y && (this.type === BlockType.GOAL || another.type === BlockType.GOAL)) {
+            if (this.type === BlockType.MAN || another.type === BlockType.MAN) {
+                return new Block(BlockType.MAN_ON_GOAL, this.x, this.y);
+            }
+            if (this.type === BlockType.BOX || another.type === BlockType.BOX) {
+                return new Block(BlockType.BOX_ON_GOAL, this.x, this.y);
+            }
+        }
+        return this;
+    }
+
 }

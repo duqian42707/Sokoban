@@ -1,3 +1,3 @@
 import BoxGame from './game';
 
-new BoxGame({});
+new BoxGame();
