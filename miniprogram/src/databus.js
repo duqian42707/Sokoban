@@ -16,6 +16,7 @@ export default class DataBus {
     reset() {
         this.frame = 0
         this.score = 0
+        this.blocks = [];
         this.bullets = []
         this.enemys = []
         this.animations = []
@@ -28,9 +29,7 @@ export default class DataBus {
      */
     removeEnemey(enemy) {
         let temp = this.enemys.shift()
-
         temp.visible = false
-
         this.pool.recover('enemy', enemy)
     }
 

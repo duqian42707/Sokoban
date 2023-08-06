@@ -1,11 +1,13 @@
 import Sprite from '../base/sprite'
+import ImageMgmt from "./image";
 
 const screenWidth = window.innerWidth
 const screenHeight = window.innerHeight
 
-const BG_IMG_SRC = 'images/bg.jpg'
+const imageMgmt = new ImageMgmt();
 const BG_WIDTH = 512
 const BG_HEIGHT = 512
+
 
 /**
  * 游戏背景类
@@ -13,7 +15,7 @@ const BG_HEIGHT = 512
  */
 export default class BackGround extends Sprite {
     constructor(ctx) {
-        super(BG_IMG_SRC, BG_WIDTH, BG_HEIGHT)
+        super(imageMgmt.bg, BG_WIDTH, BG_HEIGHT)
         this.top = 0
         this.render(ctx)
     }

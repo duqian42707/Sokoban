@@ -1,3 +1,5 @@
+import {Block} from "./base/block";
+
 export function wait(ms) {
     return new Promise((resolve) => {
         setTimeout(resolve, ms);
@@ -9,8 +11,7 @@ export function wait(ms) {
  * @param blocks
  */
 export function transposition(blocks) {
-    return blocks.map(item => ({type: item.type, x: item.y, y: item.x}));
-
+    return blocks.map(item => new Block(item.type, item.row, item.col));
 }
 
 
@@ -19,11 +20,11 @@ export function transposition(blocks) {
  * @param blocks
  */
 export function deleteRows(blocks, rowNums) {
-    return blocks.filter(item => rowNums.indexOf(item.y) === -1)
+    return blocks.filter(item => rowNums.indexOf(item.row) === -1)
         .map(item => {
             let minus = 0;
-            rowNums.forEach(rowNum => item.y > rowNum && minus++);
-            return {type: item.type, x: item.x, y: item.y - minus};
+            rowNums.forEach(rowNum => item.row > rowNum && minus++);
+            return new Block(item.type, item.col, item.row - minus);
         })
 }
 
@@ -32,11 +33,11 @@ export function deleteRows(blocks, rowNums) {
  * @param blocks
  */
 export function deleteColumns(blocks, columnNums) {
-    return blocks.filter(item => columnNums.indexOf(item.x) === -1)
+    return blocks.filter(item => columnNums.indexOf(item.col) === -1)
         .map(item => {
             let minus = 0;
-            columnNums.forEach(rowNum => item.x > rowNum && minus++);
-            return {type: item.type, x: item.x - minus, y: item.y};
+            columnNums.forEach(rowNum => item.col > rowNum && minus++);
+            return new Block(item.type, item.col - minus, item.row);
         })
 }
 
@@ -48,8 +49,22 @@ export function getMaxXY(blocks) {
     let maxX = 0, maxY = 0;
     for (let i = 0; i < blocks.length; i++) {
         const item = blocks[i];
-        maxX = Math.max(maxX, item.x);
-        maxY = Math.max(maxY, item.y);
+        maxX = Math.max(maxX, item.col);
+        maxY = Math.max(maxY, item.row);
     }
     return {maxX, maxY};
+}
+
+
+/**
+ * 计算block的x，y坐标
+ * @param blocks
+ */
+export function setXYOfBlocks(blocks, width, marginTop, marginLeft) {
+    blocks.forEach(item => {
+        item.width = width;
+        item.height = width;
+        item.setMarginTop(marginTop)
+        item.setMarginLeft(marginLeft)
+    })
 }

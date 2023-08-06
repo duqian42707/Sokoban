@@ -11,11 +11,32 @@ import Sprite from "./sprite";
 import {BlockType} from "./blockType";
 
 export class Block extends Sprite {
-    constructor(type, x, y) {
-        super('assets/borgar.png', type.sourceWidth, type.sourceHeight)
-        this.type = type
-        this.x = x;
-        this.y = y;
+    constructor(type, col, row) {
+        super(type.img, type.sourceWidth, type.sourceHeight)
+        this._type = type
+        this.col = col;
+        this.row = row;
+        this.x = this.col * this.width;
+        this.y = this.row * this.height;
+    }
+
+    set type(value) {
+        this._type = value;
+        this.img = value.img
+    }
+
+    get type() {
+        return this._type;
+    }
+
+    setMarginLeft(value) {
+        this.marginLeft = value;
+        this.x = this.marginLeft + this.col * this.width;
+    }
+
+    setMarginTop(value) {
+        this.marginTop = value;
+        this.y = this.marginTop + this.row * this.height;
     }
 
     /**
@@ -26,12 +47,12 @@ export class Block extends Sprite {
      * @returns {Block}
      */
     merge(another) {
-        if (this.x === another.x && this.y === another.y && (this.type === BlockType.GOAL || another.type === BlockType.GOAL)) {
+        if (this.col === another.col && this.row === another.row && (this.type === BlockType.GOAL || another.type === BlockType.GOAL)) {
             if (this.type === BlockType.MAN || another.type === BlockType.MAN) {
-                return new Block(BlockType.MAN_ON_GOAL, this.x, this.y);
+                return new Block(BlockType.MAN_ON_GOAL, this.col, this.row);
             }
             if (this.type === BlockType.BOX || another.type === BlockType.BOX) {
-                return new Block(BlockType.BOX_ON_GOAL, this.x, this.y);
+                return new Block(BlockType.BOX_ON_GOAL, this.col, this.row);
             }
         }
         return this;

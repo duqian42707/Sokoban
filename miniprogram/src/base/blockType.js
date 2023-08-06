@@ -1,11 +1,15 @@
+import ImageMgmt from "../runtime/image";
+
+const imageMgmt = new ImageMgmt();
+
 export class BlockType {
-    static MAN = new BlockType('@', 20, 0, 20, 20);
-    static MAN_ON_GOAL = new BlockType('+', 20, 20, 20, 20);
-    static BOX = new BlockType('$', 40, 0, 20, 20);
-    static BOX_ON_GOAL = new BlockType('*', 60, 20, 20, 20);
-    static WALL = new BlockType('#', 0, 40, 20, 20);
-    static GOAL = new BlockType('.', 0, 20, 20, 20);
-    static FLOOR = new BlockType('-', 0, 0, 20, 20);
+    static MAN = new BlockType('@', imageMgmt.man);
+    static MAN_ON_GOAL = new BlockType('+', imageMgmt.manOnGoal);
+    static BOX = new BlockType('$', imageMgmt.box);
+    static BOX_ON_GOAL = new BlockType('*', imageMgmt.boxOnGoal);
+    static WALL = new BlockType('#', imageMgmt.wall);
+    static GOAL = new BlockType('.', imageMgmt.goal);
+    static FLOOR = new BlockType('-', imageMgmt.floor);
 
     static ALL_LIST = [
         this.MAN,
@@ -17,12 +21,13 @@ export class BlockType {
         this.FLOOR
     ]
 
-    constructor(text, sourceX, sourceY, sourceWidth, sourceHeight) {
+    constructor(text, img) {
         this.text = text
-        this.sourceX = sourceX
-        this.sourceY = sourceY
-        this.sourceWidth = sourceWidth
-        this.sourceHeight = sourceHeight
+        this.img = img
+        this.sourceX = 0
+        this.sourceY = 0
+        this.sourceWidth = 20
+        this.sourceHeight = 20
     }
 
     static parse(text) {

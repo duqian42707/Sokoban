@@ -595,29 +595,29 @@ export default function getData(level) {
     const dataArray = [];
     let blocks = [];
     tree.split('|').forEach(t => {
-        const xy = t.split(',').map(Number);
-        dataArray.push(new Block(BlockType.WALL, xy[0] - 1, xy[1] - 1))
+        const position = t.split(',').map(Number);
+        dataArray.push(new Block(BlockType.WALL, position[0] - 1, position[1] - 1))
     })
     box.split('|').forEach(t => {
-        const xy = t.split(',').map(Number);
-        dataArray.push(new Block(BlockType.BOX, xy[0] - 1, xy[1] - 1))
+        const position = t.split(',').map(Number);
+        dataArray.push(new Block(BlockType.BOX, position[0] - 1, position[1] - 1))
     })
     goal.split('|').forEach(t => {
-        const xy = t.split(',').map(Number);
-        dataArray.push(new Block(BlockType.GOAL, xy[0] - 1, xy[1] - 1))
+        const position = t.split(',').map(Number);
+        dataArray.push(new Block(BlockType.GOAL, position[0] - 1, position[1] - 1))
     })
     boy.split('|').forEach(t => {
-        const xy = t.split(',').map(Number);
-        dataArray.push(new Block(BlockType.MAN, xy[0] - 1, xy[1] - 1))
+        const position = t.split(',').map(Number);
+        dataArray.push(new Block(BlockType.MAN, position[0] - 1, position[1] - 1))
     })
 
     let maxXY = getMaxXY(dataArray);
 
-    for (let y = 0; y <= maxXY.maxY; y++) {
-        for (let x = 0; x <= maxXY.maxX; x++) {
-            const target = dataArray.filter(item => item.x === x && item.y === y);
+    for (let row = 0; row <= maxXY.maxY; row++) {
+        for (let col = 0; col <= maxXY.maxX; col++) {
+            const target = dataArray.filter(item => item.col === col && item.row === row);
             if (target.length === 0) {
-                blocks.push(new Block(BlockType.FLOOR, x, y))
+                blocks.push(new Block(BlockType.FLOOR, col, row))
             } else if (target.length === 1) {
                 blocks.push(target[0]);
             } else {

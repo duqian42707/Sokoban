@@ -11,6 +11,7 @@ const __ = {
  * 简易的帧动画类实现
  */
 export default class Animation extends Sprite {
+    // todo imgSrc 改为img
     constructor(imgSrc, width, height) {
         super(imgSrc, width, height)
 

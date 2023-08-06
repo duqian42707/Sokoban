@@ -1,38 +1,29 @@
-import {context, imgBorgar, imgNext, imgPrev} from "./global";
+import {context} from "./global";
 import {BlockType} from "./base/blockType";
 import getData from "./data";
-import {getMaxXY, wait} from "./utils";
+import {getMaxXY, setXYOfBlocks, wait} from "./utils";
 import {Gesture} from "./gestureListener";
 import {KeyBoard} from "./keyboardListener";
 import BackGround from './runtime/background'
-import DataBus from "./databus";
-import GameInfo from "./runtime/gameinfo";
 import Music from "./runtime/music";
+import {Button} from "./base/button";
+import ImageMgmt from "./runtime/image";
 
+const imageMgmt = new ImageMgmt();
 const MARGIN_LEFT = 25;
-const MARGIN_TOP = 130;
+const MARGIN_TOP = 140;
 
-let databus = new DataBus()
 
 export default class BoxGame {
 
     constructor() {
         this.bg = new BackGround(context);
-        this.gameinfo = new GameInfo();
         this.music = new Music()
-        this.bindLoop = this.loop.bind(this)
-
-        // 清除上一局的动画
-        window.cancelAnimationFrame(this.aniId);
-        this.aniId = window.requestAnimationFrame(
-            this.bindLoop,
-            canvas
-        )
 
         console.log('画布宽高：', canvas.width, canvas.height);
         this.blocks = [];
-        this.BLOCK_WIDTH = 30;
-        this.level = 2;
+        this.buttons = [];
+        this.level = 1;
         this.gesture = new Gesture(this.doDirection);
         this.keyboard = new KeyBoard(this.doDirection);
         this.onmove = undefined;
@@ -42,10 +33,21 @@ export default class BoxGame {
             this.gesture.clearGestureListener();
             this.keyboard.clearKeyboardListener();
             await wait(300);
-            this.level++;
-            await this.load(this.level);
+            await this.load(this.level + 1);
         };
+        this.init();
+
+    }
+
+    async init() {
+        await this.loadImages();
+        this.initButtons();
         this.load(this.level);
+    }
+
+    loadImages() {
+        const promArray = imageMgmt.getAllImage().map(item => imageMgmt.loadImage(item));
+        return Promise.all(promArray);
     }
 
 
@@ -56,24 +58,17 @@ export default class BoxGame {
     render() {
         context.clearRect(0, 0, canvas.width, canvas.height)
         this.bg.render(context)
-        this.drawButtons();
-        this.drawMainRect();
+        this.blocks.forEach(item => item.drawToCanvas(context))
+        this.buttons.forEach(item => item.drawToCanvas(context))
+        context.fillStyle = '#fff'
+        context.font = "30px Arial"
+        context.fillText('第 ' + this.level + ' 关', canvas.width / 2 - 40, 120, 80)
     }
 
 
-    drawButtons() {
-        context.drawImage(imgPrev, 10, 70)
-        context.drawImage(imgNext, 250, 70)
-    }
-
-    drawMainRect() {
-        for (let i = 0; i < this.blocks.length; i++) {
-            const block = this.blocks[i];
-            const blockType = block.type;
-            const x = MARGIN_LEFT + block.x * this.BLOCK_WIDTH;
-            const y = MARGIN_TOP + block.y * this.BLOCK_WIDTH;
-            context.drawImage(imgBorgar, blockType.sourceX, blockType.sourceY, blockType.sourceWidth, blockType.sourceHeight, x, y, this.BLOCK_WIDTH, this.BLOCK_WIDTH)
-        }
+    initButtons() {
+        this.buttons.push(new Button(context, 'prev', imageMgmt.btnPrev, 120, 60, 10, 80))
+        this.buttons.push(new Button(context, 'next', imageMgmt.btnNext, 120, 60, 250, 80))
     }
 
 
@@ -84,10 +79,12 @@ export default class BoxGame {
 
     doDirection = async (direction) => {
         if (typeof direction === 'object') {
-            console.log('tap:', direction);
+            const button = this.buttons.find(item => item.isTapped(direction[0], direction[1]))
+            if (button != null) {
+                this.tapButton(button);
+            }
         }
         if (typeof direction === 'string') {
-            console.log('swipe:', direction);
             await this.move(direction);
             if (this.isWin()) {
                 if (this.onLevelComplete) {
@@ -97,11 +94,21 @@ export default class BoxGame {
         }
     }
 
+    tapButton(button) {
+        if (button.name === 'prev') {
+            this.load(this.level - 1);
+        }
+        if (button.name === 'next') {
+            this.load(this.level + 1);
+        }
+
+    }
+
     getItem(x, y) {
         const items = this.blocks;
         for (let i = 0; i < items.length; i++) {
             const item = items[i];
-            if (x === Number(item.x) && y === Number(item.y)) {
+            if (x === Number(item.col) && y === Number(item.row)) {
                 return item;
             }
         }
@@ -121,8 +128,8 @@ export default class BoxGame {
 
     async move(direction = 'right') {
         const boxman = this.boxman;
-        const x = Number(boxman.x),
-            y = Number(boxman.y);
+        const x = Number(boxman.col),
+            y = Number(boxman.row);
 
         let item = null;
 
@@ -139,6 +146,7 @@ export default class BoxGame {
             // 人走到空地或目标
             if (this.onmove) this.onmove([boxman], direction);
             await this.itemMove(boxman, direction);
+            this.render();
         } else if ((item.type === BlockType.BOX || item.type === BlockType.BOX_ON_GOAL)
             && (direction === 'left' && this.isEmpty(x - 2, y)
                 || direction === 'right' && this.isEmpty(x + 2, y)
@@ -150,6 +158,7 @@ export default class BoxGame {
             await this.itemMove(item, direction);
             await this.itemMove(boxman, direction);
             boxman.className = `boxman ${direction}`;
+            this.render();
         } else {
             // 人走不动
             boxman.className = `boxman ${direction}`;
@@ -161,13 +170,13 @@ export default class BoxGame {
         let from,
             to;
         if (direction === 'left' || direction === 'right') {
-            from = Number(item.x);
+            from = Number(item.col);
             to = direction === 'left' ? from - 1 : from + 1;
-            targetItem = this.blocks.find(block => block.x === to && block.y === item.y);
+            targetItem = this.blocks.find(block => block.col === to && block.row === item.row);
         } else {
-            from = Number(item.y);
+            from = Number(item.row);
             to = direction === 'up' ? from - 1 : from + 1;
-            targetItem = this.blocks.find(block => block.x === item.x && block.y === to);
+            targetItem = this.blocks.find(block => block.col === item.col && block.row === to);
         }
         if (targetItem.type === BlockType.FLOOR) {
             if (item.type === BlockType.MAN) {
@@ -217,38 +226,22 @@ export default class BoxGame {
     }
 
     async load(level) {
-        console.log('load:', level)
+        if (level < 1) {
+            level = 1;
+        }
+        if (level > 100) {
+            level = 100;
+        }
+        this.level = level;
         this.blocks = getData(level);
         const {maxX} = getMaxXY(this.blocks);
-        this.BLOCK_WIDTH = ((canvas.width - MARGIN_LEFT * 2) / (maxX + 1));
-
+        const blockWidth = ((canvas.width - MARGIN_LEFT * 2) / (maxX + 1));
+        setXYOfBlocks(this.blocks, blockWidth, MARGIN_TOP, MARGIN_LEFT);
         this.gesture.addGestureListener();
         this.keyboard.addKeyboardListener()
+        this.render();
 
     }
 
-
-    // 游戏逻辑更新主函数
-    update() {
-        if (databus.gameOver) {
-            return;
-        }
-        databus.bullets
-            .concat(databus.enemys)
-            .forEach((item) => {
-                item.update()
-            })
-    }
-
-    // 实现游戏帧循环
-    loop() {
-        databus.frame++
-        this.update()
-        this.render()
-        this.aniId = window.requestAnimationFrame(
-            this.bindLoop,
-            canvas
-        )
-    }
 
 }
