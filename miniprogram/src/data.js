@@ -611,7 +611,6 @@ export default function getData(level) {
     })
 
     let maxXY = getMaxXY(dataArray);
-    console.log(maxXY)
 
     for (let y = 0; y <= maxXY.maxY; y++) {
         for (let x = 0; x <= maxXY.maxX; x++) {
@@ -665,7 +664,5 @@ export default function getData(level) {
         // 如果宽比高大，进行行列转换，方便竖屏显示
         blocks = transposition(blocks);
     }
-    console.log(blocks)
-
     return blocks;
 }

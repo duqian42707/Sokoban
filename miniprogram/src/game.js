@@ -2,27 +2,36 @@ import {canvas, context, imgBorgar} from "./global";
 import {BlockType} from "./model";
 import getData from "./data";
 import {getMaxXY, wait} from "./utils";
+import {addGestureListener, clearGestureListener} from "./gestureListener";
+import {KeyBoard} from "./keyboardListener";
 
 const BACKGROUND_COLOR = '#EAEDF4';
 const MARGIN_TOP = 100;
+
 export default class BoxGame {
 
     constructor() {
         this.blocks = [];
         this.BLOCK_WIDTH = 30;
+        this.level = 2;
         this.img = imgBorgar;
         this.img.onload = () => {
             this.draw();
         }
+
         this.onLevelComplete = async () => {
             console.log('success!')
-            await wait(1300);
-            console.log('success2!')
-            await wait(200);
-            console.log('success4!')
+            if (wx) {
+                clearGestureListener();
+            } else {
+                this.keyboard.clearKeyboardListener();
+            }
+            await wait(300);
+            this.level++;
+            this.load(this.level);
         };
         this.drawBackground();
-        this.load(23);
+        this.load(this.level);
     }
 
     drawBackground() {
@@ -32,6 +41,7 @@ export default class BoxGame {
 
 
     draw() {
+        this.drawBackground();
         for (let i = 0; i < this.blocks.length; i++) {
             const block = this.blocks[i];
             const blockType = block.type;
@@ -44,6 +54,16 @@ export default class BoxGame {
 
     get boxman() {
         return this.blocks.find(x => x.type === BlockType.MAN || x.type === BlockType.MAN_ON_GOAL);
+    }
+
+
+    doDirection = async (direction) => {
+        await this.move(direction);
+        if (this.isWin()) {
+            if (this.onLevelComplete) {
+                await this.onLevelComplete();
+            }
+        }
     }
 
     getItem(x, y) {
@@ -167,50 +187,24 @@ export default class BoxGame {
         return buckets.length === 0;
     }
 
-    waitCommand() {
-        return new Promise((resolve) => {
-            if (this._command) window.removeEventListener('keydown', this._command);
-            this._command = (event) => {
-                const keyCode = event.keyCode;
-                switch (keyCode) {
-                    case 37:
-                        resolve('left');
-                        break;
-                    case 38:
-                        resolve('up');
-                        break;
-                    case 39:
-                        resolve('right');
-                        break;
-                    case 40:
-                        resolve('down');
-                        break;
-                    default:
-                        resolve(null);
-                        break;
-                }
-            };
-            window.addEventListener('keydown', this._command, {once: true});
-        });
-    }
-
-
     async load(level) {
+        console.log('load:', level)
         this.blocks = getData(level);
         const {maxX} = getMaxXY(this.blocks);
         this.BLOCK_WIDTH = ((canvas.width - 50) / (maxX + 1));
-        console.log('BLOCK_WIDTH:', this.BLOCK_WIDTH)
 
-        do {
-            const direction = await this.waitCommand();
-            if (direction) {
-                await this.move(direction);
+        this.draw();
+
+        if (wx) {
+            addGestureListener(this.doDirection)
+        } else {
+            if (!this.keyboard) {
+                this.keyboard = new KeyBoard(this.doDirection);
             }
-        } while (!this.isWin());
-
-        if (this.onLevelComplete) {
-            await this.onLevelComplete(level);
+            this.keyboard.addKeyboardListener()
         }
+
+
     }
 
 
