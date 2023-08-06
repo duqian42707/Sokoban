@@ -33,6 +33,7 @@ export class Gesture {
         const direction = this.getSlideDirection(this.startX, this.startY, this.endX, this.endY);
         switch (direction) {
             case 0:
+                if (this.callback) this.callback([this.endX | this.startX, this.endY | this.startY]);
                 break;
             case 1:
                 if (this.callback) this.callback('up');
@@ -67,7 +68,7 @@ export class Gesture {
         const dx = endX - startX;
 
         // 如果滑动距离太短
-        if (Math.abs(dx) < 20 && Math.abs(dy) < 20) {
+        if (Math.abs(dx) < 50 && Math.abs(dy) < 50) {
             return result;
         }
         const angle = this.getSlideAngle(dx, dy);

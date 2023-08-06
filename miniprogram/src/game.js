@@ -1,11 +1,12 @@
-import {canvas, context, imgBorgar, stepSound, successSound} from "./global";
+import {canvas, context, imgBorgar, imgNext, imgPrev, stepSound, successSound} from "./global";
 import {BlockType} from "./model";
 import getData from "./data";
 import {getMaxXY, wait} from "./utils";
 import {Gesture} from "./gestureListener";
 import {KeyBoard} from "./keyboardListener";
 
-const BACKGROUND_COLOR = '#EAEDF4';
+const BACKGROUND_COLOR = '#f2f3f6';
+const MARGIN_LEFT = 25;
 const MARGIN_TOP = 100;
 
 export default class BoxGame {
@@ -32,6 +33,7 @@ export default class BoxGame {
             await this.load(this.level);
         };
         this.drawBackground();
+        this.drawButtons();
         this.load(this.level);
     }
 
@@ -40,13 +42,22 @@ export default class BoxGame {
         context.fillRect(0, 0, canvas.width, canvas.height);
     }
 
+    async drawButtons() {
+        imgPrev.onload = () => {
+            context.drawImage(imgPrev, 10, 20)
+        }
+        imgNext.onload = () => {
+            context.drawImage(imgNext, 250, 20)
+        }
+    }
+
 
     draw() {
         this.drawBackground();
         for (let i = 0; i < this.blocks.length; i++) {
             const block = this.blocks[i];
             const blockType = block.type;
-            const x = block.x * this.BLOCK_WIDTH;
+            const x = MARGIN_LEFT + block.x * this.BLOCK_WIDTH;
             const y = MARGIN_TOP + block.y * this.BLOCK_WIDTH;
             context.drawImage(this.img, blockType.sourceX, blockType.sourceY, blockType.sourceWidth, blockType.sourceHeight, x, y, this.BLOCK_WIDTH, this.BLOCK_WIDTH)
         }
@@ -59,10 +70,16 @@ export default class BoxGame {
 
 
     doDirection = async (direction) => {
-        await this.move(direction);
-        if (this.isWin()) {
-            if (this.onLevelComplete) {
-                await this.onLevelComplete();
+        if (typeof direction === 'object') {
+            console.log('tap:', direction);
+        }
+        if (typeof direction === 'string') {
+            console.log('swipe:', direction);
+            await this.move(direction);
+            if (this.isWin()) {
+                if (this.onLevelComplete) {
+                    await this.onLevelComplete();
+                }
             }
         }
     }
@@ -192,7 +209,7 @@ export default class BoxGame {
         console.log('load:', level)
         this.blocks = getData(level);
         const {maxX} = getMaxXY(this.blocks);
-        this.BLOCK_WIDTH = ((canvas.width - 50) / (maxX + 1));
+        this.BLOCK_WIDTH = ((canvas.width - MARGIN_LEFT * 2) / (maxX + 1));
 
         this.draw();
 
