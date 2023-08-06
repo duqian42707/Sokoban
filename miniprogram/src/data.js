@@ -1,4 +1,5 @@
-import {Block, BlockType} from "./model";
+import {BlockType} from "./base/blockType";
+import {Block} from "./base/block";
 import {deleteColumns, deleteRows, getMaxXY, transposition} from "./utils";
 
 const gameData = [{

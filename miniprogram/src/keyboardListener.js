@@ -28,11 +28,11 @@ export class KeyBoard {
     }
 
     addKeyboardListener() {
-        if (window) window.addEventListener('keydown', this.listener)
+        window.addEventListener('keydown', this.listener)
     }
 
     clearKeyboardListener() {
-        if (window) window.removeEventListener('keydown', this.listener)
+        window.removeEventListener('keydown', this.listener)
     }
 
 

@@ -1,65 +1,78 @@
-import {canvas, context, imgBorgar, imgNext, imgPrev, stepSound, successSound} from "./global";
-import {BlockType} from "./model";
+import {context, imgBorgar, imgNext, imgPrev} from "./global";
+import {BlockType} from "./base/blockType";
 import getData from "./data";
 import {getMaxXY, wait} from "./utils";
 import {Gesture} from "./gestureListener";
 import {KeyBoard} from "./keyboardListener";
+import BackGround from './runtime/background'
+import DataBus from "./databus";
+import GameInfo from "./runtime/gameinfo";
+import Music from "./runtime/music";
 
-const BACKGROUND_COLOR = '#f2f3f6';
 const MARGIN_LEFT = 25;
-const MARGIN_TOP = 100;
+const MARGIN_TOP = 130;
+
+let databus = new DataBus()
 
 export default class BoxGame {
 
     constructor() {
+        this.bg = new BackGround(context);
+        this.gameinfo = new GameInfo();
+        this.music = new Music()
+        this.bindLoop = this.loop.bind(this)
+
+        // 清除上一局的动画
+        window.cancelAnimationFrame(this.aniId);
+        this.aniId = window.requestAnimationFrame(
+            this.bindLoop,
+            canvas
+        )
+
         console.log('画布宽高：', canvas.width, canvas.height);
         this.blocks = [];
         this.BLOCK_WIDTH = 30;
         this.level = 2;
-        this.img = imgBorgar;
-        this.img.onload = () => {
-            this.draw();
-        }
         this.gesture = new Gesture(this.doDirection);
         this.keyboard = new KeyBoard(this.doDirection);
         this.onmove = undefined;
         this.onLevelComplete = async () => {
             console.log('success!')
-            successSound.play();
+            this.music.playSuccess();
             this.gesture.clearGestureListener();
             this.keyboard.clearKeyboardListener();
             await wait(300);
             this.level++;
             await this.load(this.level);
         };
-        this.drawBackground();
-        this.drawButtons();
         this.load(this.level);
     }
 
-    drawBackground() {
-        context.fillStyle = BACKGROUND_COLOR;
-        context.fillRect(0, 0, canvas.width, canvas.height);
+
+    /**
+     * canvas重绘函数
+     * 每一帧重新绘制所有的需要展示的元素
+     */
+    render() {
+        context.clearRect(0, 0, canvas.width, canvas.height)
+        this.bg.render(context)
+        this.drawButtons();
+        this.drawMainRect();
     }
 
-    async drawButtons() {
-        imgPrev.onload = () => {
-            context.drawImage(imgPrev, 10, 20)
-        }
-        imgNext.onload = () => {
-            context.drawImage(imgNext, 250, 20)
-        }
+
+    drawButtons() {
+        context.drawImage(imgPrev, 10, 70)
+        context.drawImage(imgNext, 250, 70)
     }
 
-
-    draw() {
-        this.drawBackground();
+    drawMainRect() {
         for (let i = 0; i < this.blocks.length; i++) {
             const block = this.blocks[i];
             const blockType = block.type;
             const x = MARGIN_LEFT + block.x * this.BLOCK_WIDTH;
             const y = MARGIN_TOP + block.y * this.BLOCK_WIDTH;
-            context.drawImage(this.img, blockType.sourceX, blockType.sourceY, blockType.sourceWidth, blockType.sourceHeight, x, y, this.BLOCK_WIDTH, this.BLOCK_WIDTH)
+            context.drawImage(imgBorgar, blockType.sourceX, blockType.sourceY, blockType.sourceWidth, blockType.sourceHeight, x, y, this.BLOCK_WIDTH, this.BLOCK_WIDTH)
         }
     }
 
@@ -126,7 +139,6 @@ export default class BoxGame {
             // 人走到空地或目标
             if (this.onmove) this.onmove([boxman], direction);
             await this.itemMove(boxman, direction);
-            this.draw();
         } else if ((item.type === BlockType.BOX || item.type === BlockType.BOX_ON_GOAL)
             && (direction === 'left' && this.isEmpty(x - 2, y)
                 || direction === 'right' && this.isEmpty(x + 2, y)
@@ -138,7 +150,6 @@ export default class BoxGame {
             await this.itemMove(item, direction);
             await this.itemMove(boxman, direction);
             boxman.className = `boxman ${direction}`;
-            this.draw();
         } else {
             // 人走不动
             boxman.className = `boxman ${direction}`;
@@ -194,7 +205,7 @@ export default class BoxGame {
             item.type = BlockType.GOAL;
         }
 
-        stepSound.play();
+        this.music.playStep();
     }
 
     /**
@@ -211,13 +222,33 @@ export default class BoxGame {
         const {maxX} = getMaxXY(this.blocks);
         this.BLOCK_WIDTH = ((canvas.width - MARGIN_LEFT * 2) / (maxX + 1));
 
-        this.draw();
-
         this.gesture.addGestureListener();
         this.keyboard.addKeyboardListener()
 
-
     }
 
+
+    // 游戏逻辑更新主函数
+    update() {
+        if (databus.gameOver) {
+            return;
+        }
+        databus.bullets
+            .concat(databus.enemys)
+            .forEach((item) => {
+                item.update()
+            })
+    }
+
+    // 实现游戏帧循环
+    loop() {
+        databus.frame++
+        this.update()
+        this.render()
+        this.aniId = window.requestAnimationFrame(
+            this.bindLoop,
+            canvas
+        )
+    }
 
 }

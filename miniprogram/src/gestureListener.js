@@ -1,6 +1,3 @@
-import {canvas} from "./global";
-
-
 export class Gesture {
     startX = undefined;
     startY = undefined;
