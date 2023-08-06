@@ -50,6 +50,13 @@ export class Block {
         this.y = y;
     }
 
+    /**
+     * 与另外一个块合并，二者必须是相同位置才行
+     * 目标 + 人   ==> 人在目标
+     * 目标 + 箱子 ==> 箱子在目标
+     * @param another
+     * @returns {Block}
+     */
     merge(another) {
         if (this.x === another.x && this.y === another.y && (this.type === BlockType.GOAL || another.type === BlockType.GOAL)) {
             if (this.type === BlockType.MAN || another.type === BlockType.MAN) {

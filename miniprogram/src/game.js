@@ -1,8 +1,8 @@
-import {canvas, context, imgBorgar} from "./global";
+import {canvas, context, imgBorgar, stepSound, successSound} from "./global";
 import {BlockType} from "./model";
 import getData from "./data";
 import {getMaxXY, wait} from "./utils";
-import {addGestureListener, clearGestureListener} from "./gestureListener";
+import {Gesture} from "./gestureListener";
 import {KeyBoard} from "./keyboardListener";
 
 const BACKGROUND_COLOR = '#EAEDF4';
@@ -11,6 +11,7 @@ const MARGIN_TOP = 100;
 export default class BoxGame {
 
     constructor() {
+        console.log('画布宽高：', canvas.width, canvas.height);
         this.blocks = [];
         this.BLOCK_WIDTH = 30;
         this.level = 2;
@@ -18,17 +19,17 @@ export default class BoxGame {
         this.img.onload = () => {
             this.draw();
         }
-
+        this.gesture = new Gesture(this.doDirection);
+        this.keyboard = new KeyBoard(this.doDirection);
+        this.onmove = undefined;
         this.onLevelComplete = async () => {
             console.log('success!')
-            if (wx) {
-                clearGestureListener();
-            } else {
-                this.keyboard.clearKeyboardListener();
-            }
+            successSound.play();
+            this.gesture.clearGestureListener();
+            this.keyboard.clearKeyboardListener();
             await wait(300);
             this.level++;
-            this.load(this.level);
+            await this.load(this.level);
         };
         this.drawBackground();
         this.load(this.level);
@@ -107,7 +108,7 @@ export default class BoxGame {
         if (item.type === BlockType.FLOOR || item.type === BlockType.GOAL) {
             // 人走到空地或目标
             if (this.onmove) this.onmove([boxman], direction);
-            await this.moveItem(boxman, direction);
+            await this.itemMove(boxman, direction);
             this.draw();
         } else if ((item.type === BlockType.BOX || item.type === BlockType.BOX_ON_GOAL)
             && (direction === 'left' && this.isEmpty(x - 2, y)
@@ -117,10 +118,8 @@ export default class BoxGame {
             // 人推箱子往前走
             if (this.onmove) this.onmove([boxman, item], direction);
             boxman.className = `boxman ${direction} walk`;
-            await Promise.all([
-                this.moveItem(item, direction),
-                this.moveItem(boxman, direction),
-            ]);
+            await this.itemMove(item, direction);
+            await this.itemMove(boxman, direction);
             boxman.className = `boxman ${direction}`;
             this.draw();
         } else {
@@ -129,7 +128,7 @@ export default class BoxGame {
         }
     }
 
-    moveItem(item, direction = 'right') {
+    itemMove(item, direction = 'right') {
         let targetItem;
         let from,
             to;
@@ -177,6 +176,8 @@ export default class BoxGame {
             targetItem.type = BlockType.MAN
             item.type = BlockType.GOAL;
         }
+
+        stepSound.play();
     }
 
     /**
@@ -195,14 +196,8 @@ export default class BoxGame {
 
         this.draw();
 
-        if (wx) {
-            addGestureListener(this.doDirection)
-        } else {
-            if (!this.keyboard) {
-                this.keyboard = new KeyBoard(this.doDirection);
-            }
-            this.keyboard.addKeyboardListener()
-        }
+        this.gesture.addGestureListener();
+        this.keyboard.addKeyboardListener()
 
 
     }

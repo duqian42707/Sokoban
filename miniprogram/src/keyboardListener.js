@@ -1,34 +1,38 @@
 export class KeyBoard {
 
-    constructor(callback) {
-        this.listener = (event) => {
-            const keyCode = event.keyCode;
-            switch (keyCode) {
-                case 37:
-                    if (callback) callback('left');
-                    break;
-                case 38:
-                    if (callback) callback('up');
-                    break;
-                case 39:
-                    if (callback) callback('right');
-                    break;
-                case 40:
-                    if (callback) callback('down');
-                    break;
-                default:
-                    break;
-            }
+    listener = (ev) => {
+        if (ev.preventDefault) {
+            ev.preventDefault()
+        }
+        const keyCode = ev.keyCode;
+        switch (keyCode) {
+            case 37:
+                if (this.callback) this.callback('left');
+                break;
+            case 38:
+                if (this.callback) this.callback('up');
+                break;
+            case 39:
+                if (this.callback) this.callback('right');
+                break;
+            case 40:
+                if (this.callback) this.callback('down');
+                break;
+            default:
+                break;
         }
     }
 
+    constructor(callback) {
+        this.callback = callback;
+    }
 
     addKeyboardListener() {
-        window.addEventListener('keydown', this.listener)
+        if (window) window.addEventListener('keydown', this.listener)
     }
 
     clearKeyboardListener() {
-        window.removeEventListener('keydown', this.listener)
+        if (window) window.removeEventListener('keydown', this.listener)
     }
 
 
