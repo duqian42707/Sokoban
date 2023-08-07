@@ -10,6 +10,7 @@ import Music from "./runtime/music";
 import {Button} from "./base/button";
 import ImageMgmt from "./runtime/image";
 import {getCurrentLevel, putCompleteLevel, setCurrentLevel} from "./base/dataStore";
+import {solve} from "./solve";
 
 const imageMgmt = new ImageMgmt();
 const MARGIN_LEFT = 25;
@@ -73,7 +74,8 @@ export default class BoxGame {
     initButtons() {
         this.buttons.push(new Button(context, 'prev', imageMgmt.btnPrev, 120, 60, 10, 80))
         this.buttons.push(new Button(context, 'next', imageMgmt.btnNext, 120, 60, 250, 80))
-        this.buttons.push(new Button(context, 'reset', imageMgmt.btnReset, 60, 60, canvas.width / 2 - 30, 530))
+        this.buttons.push(new Button(context, 'reset', imageMgmt.btnReset, 60, 60, canvas.width / 2 - 100, 530))
+        this.buttons.push(new Button(context, 'solve', imageMgmt.btnSolve, 60, 60, canvas.width / 2 + 30, 530))
     }
 
 
@@ -108,6 +110,9 @@ export default class BoxGame {
         }
         if (button.name === 'reset') {
             Confirm('确定要重置此关卡吗？', () => this.load(this.level));
+        }
+        if (button.name === 'solve') {
+            Confirm('确定要查看答案吗？', () => this.solve());
         }
 
     }
@@ -252,6 +257,23 @@ export default class BoxGame {
 
         console.log(blockToXSB(this.blocks))
         console.log(maxX, maxY)
+    }
+
+    /**
+     * 自动解答
+     */
+    async solve() {
+        const steps = solve(this.blocks);
+
+        this.load(this.level);
+        for (let i = 0; i < steps.length; i++) {
+            const direction = steps[i];
+            await this.move(direction);
+            await wait(300);
+        }
+        if (this.onLevelComplete && this.isWin()) {
+            await this.onLevelComplete();
+        }
     }
 
 

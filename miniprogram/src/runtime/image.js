@@ -43,6 +43,9 @@ export default class ImageMgmt {
         this.btnReset = new Image()
         this.btnReset.src = 'assets/reset.png'
 
+        this.btnSolve = new Image()
+        this.btnSolve.src = 'assets/solve.png'
+
     }
 
     getAllImage() {
@@ -57,7 +60,8 @@ export default class ImageMgmt {
             this.boxOnGoal,
             this.btnPrev,
             this.btnNext,
-            this.btnReset
+            this.btnReset,
+            this.btnSolve,
         ]
     }
 
