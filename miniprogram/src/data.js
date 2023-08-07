@@ -656,7 +656,7 @@ export function getData(level) {
 
 export function printXSBs() {
     let result = [];
-    for (let i = 0; i < 100; i++) {
+    for (let i = 100; i < 113; i++) {
         const blocks = getData(i + 1);
         const str = blockToXSB(blocks);
         result.push(str);

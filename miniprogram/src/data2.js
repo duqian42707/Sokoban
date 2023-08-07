@@ -56,16 +56,10 @@ const dataList = [
     "####----\n#.-#----\n#-$#----\n#--#####\n#-.$-@-#\n#-.$-#-#\n###----#\n--######",
     "#####--\n#---###\n#-#$$-#\n#-$-#-#\n#--@.-#\n#--#--#\n#--.-.#\n#######",
     "######--\n#--.-#--\n#----###\n#-#$$.-#\n#.--##-#\n#@$-##-#\n###----#\n--######",
-    "---###---\n---#@####\n---#----#\n---#-#$-#\n####----#\n#--#-$###\n#-------#\n..$##$#-#\n..-##---#\n#########",
     "####---\n#.@##--\n#.--#--\n#.$-#--\n#.$$###\n##$---#\n-#--#-#\n-#----#\n-######",
     "####---\n#.@##--\n#.--#--\n#.$-#--\n#.$$###\n##$-$-#\n-#--#-#\n-#.---#\n-######",
-    "#######-\n#-----##\n#-$-$--#\n#@$$$#-#\n##-$---#\n##-#####\n#-...#--\n#-...#--\n###--#--\n--####--",
-    "#########\n...##---#\n...##-$-#\n#.$$--$-#\n#@--$--##\n##-##$##-\n-#-#--###\n-#-#$---#\n-#------#\n-#--#####\n-####----",
-    "#######--\n#-----#--\n--$-$-##-\n-$#-#$-#-\n@-#-$--#-\n###--#-##\n######--#\n....$---#\n..*.--$-#\n#########",
     "#######\n#@-*--#\n#-*$*-#\n#--*--#\n#-**--#\n#--*--#\n#--.-##\n######-",
     "--######\n--#-$..#\n###--*.#\n#--$-*.#\n#-$$$#.#\n#--#-###\n#@---#--\n######--",
-    "----####\n-####--#\n##-..*.#\n#-$-#..#\n#--$##.#\n#--$---#\n##-#--##\n-#$$$-#-\n-#-@-##-\n-#####--",
-    "-#####--\n##---##-\n---$--#-\n--#-$-#-\n-$$-#-##\n-$-##.@#\n##-...-#\n-###..-#\n---##$-#\n----#--#\n----####",
     "--####-\n###--##\n#-----#\n#-.**-#\n#-$@$-#\n#-**.-#\n#-----#\n#######",
     "--####-\n###--##\n#-----#\n#-.**-#\n#-$@$-#\n#-**.-#\n#----##\n######-",
     "--####-\n###--##\n#-----#\n#-.$*-#\n#-*@*-#\n#-*$.-#\n#-----#\n#######",
@@ -85,8 +79,6 @@ const dataList = [
     "---###-\n---#.#-\n--##.##\n###-.@#\n#--$$##\n#-#-$-#\n#---#-#\n###---#\n--#####",
     "---#####\n--##---#\n--#--#-#\n--#-$--#\n###$-#-#\n#..*-#-#\n##@#---#\n-#######",
     "####----\n#.-##---\n#..@#---\n#.*$###-\n##-$--##\n#--$$--#\n#------#\n###--###\n--####--",
-    "####----\n#--####-\n#-$#--#-\n#-.-*-#-\n#*-*.-#-\n#-*.*-#-\n#@--$-#-\n###-$-##\n--##---#\n---#---#\n---#####",
-    "####----\n#--####-\n#-$---#-\n#-.#*-#-\n#.-*.-#-\n#$***-#-\n#@----#-\n###---##\n--##$--#\n---#---#\n---#####",
     "######--\n#....#--\n#.$*$###\n#@*-$--#\n###-$--#\n--#--$-#\n--##---#\n---#####",
     "#####---\n#...##--\n#.$$-###\n#@*-$-.#\n###-$--#\n--#--$-#\n--###--#\n----####",
     "-####-\n##--##\n#----#\n#-$--#\n#-$--#\n#-####\n#-#---\n#.#---\n#*#---\n#+#---\n###---",
@@ -100,10 +92,135 @@ const dataList = [
     "#####--\n#.-@#--\n#-#$#--\n#---#--\n#-#-###\n#.-$--#\n#--.$-#\n#######",
     "--###--\n###.###\n#---$-#\n#@.$#-#\n#--.--#\n##-$###\n-#--#--\n-####--",
     "-#####-\n##.-@#-\n#-.#-#-\n#-$$-#-\n##--###\n-#-$--#\n-#.---#\n-######",
-    "-####---\n-#@-#---\n-#--#---\n##.-####\n#-$$.-.#\n#--$-###\n###--#--\n--####--"
+    "-####---\n-#@-#---\n-#--#---\n##.-####\n#-$$.-.#\n#--$-###\n###--#--\n--####--",
+    "--#####\n--#---#\n--#-#.#\n###--.#\n#@-$$-#\n#--.$-#\n#######",
+    "######-\n#--@-##\n#--#--#\n#.--$-#\n#-$$#.#\n###--.#\n--#####",
+    "-####-\n-#--##\n##.--#\n#.--.#\n#--$-#\n###$$#\n--#-@#\n--####",
+    "----####\n----#--#\n--###$.#\n--#--.-#\n###--#.#\n#-$--$-#\n#---#-@#\n########",
+    "#####---\n#--.###-\n#-$..-#-\n#--##$##\n##--#--#\n-#$---@#\n-#--####\n-####---",
+    "-######\n##.---#\n#@-$.-#\n#-#$###\n#--$-#-\n#--.-#-\n#--###-\n####---",
+    "-######-\n-#@---##\n-##$---#\n###-.--#\n#-$-#$##\n#-.--.#-\n####--#-\n---####-",
+    "#####--\n#---###\n#--$--#\n##$$-.#\n-#@-.-#\n-##-#-#\n--#--.#\n--#####",
+    "#####---\n#---####\n#-$$---#\n#-.#.--#\n#--##-##\n#--##$#-\n#-@--.#-\n#######-",
+    "-#######\n##---.-#\n#-$--$@#\n#.$.####\n#--##---\n#--#----\n#--#----\n####----",
+    "-####-\n-#--#-\n##.-#-\n#-.$##\n#--$-#\n##$--#\n-#.@-#\n-#####",
+    "########\n#---#--#\n#-#.$-$#\n#---$--#\n#####.@#\n--#----#\n--#---.#\n--######",
+    "---#####\n---#---#\n-###--@#\n-#-$-$##\n##-$--#-\n#.--#-#-\n#..---#-\n#######-"
 ]
 
 
 export function getData(level) {
-    return xsbToBlocks(dataList[level - 1]);
+    let newDataList = sortByDifficult();
+    const res = getMaxColRows()
+    console.log('level: ' + level + ',max col,ros', res)
+    const asdf = countNum(newDataList[level]);
+    console.log(asdf)
+    newDataList = newDataList.map(item => adjustToArea(item, res.cols, res.rows));
+    return xsbToBlocks(newDataList[level - 1]);
+}
+
+
+export function getColRow(xsbStr) {
+    const rows = xsbStr.split('\n');
+    const cols = rows[0].length;
+    return {cols, rows: rows.length};
+}
+
+export function getMaxColRows() {
+    const tempList = [...dataList];
+    tempList.sort((a, b) => {
+        const cr1 = getColRow(a);
+        const cr2 = getColRow(b);
+        if (cr1.cols >= cr2.cols && cr1.rows >= cr2.rows) {
+            return -1;
+        } else {
+            return 1;
+        }
+    })
+    return getColRow(tempList[0]);
+}
+
+/**
+ * 给地图四周添加空白，以保持显示大小基本不变
+ * @param xsbStr
+ * @param targetCols
+ * @param targetRows
+ */
+export function adjustToArea(xsbStr, targetCols, targetRows) {
+    const rows = xsbStr.split('\n');
+    const rowsNum = rows.length;
+    const colsNum = rows[0].length;
+
+    const addRows = (targetRows - rowsNum) / 2;
+    const addCols = (targetCols - colsNum) / 2;
+
+    for (let i = 0; i < addRows; i++) {
+        rows.splice(0, 0, stringOfNum('-', colsNum));
+        rows.push(stringOfNum('-', colsNum));
+    }
+
+    for (let i = 0; i < rows.length; i++) {
+        rows[i] = stringOfNum('-', addCols) + rows[i] + stringOfNum('-', addCols);
+    }
+    return rows.join('\n');
+}
+
+/**
+ * 按照难度排序
+ * 1. 目标数量少的简单（包括人在目标、箱子在目标）
+ * 2. 墙/空位比例小的简单
+ * 3. 整体元素数量少的简单
+ *
+ *
+ * @returns {string[]}
+ */
+export function sortByDifficult() {
+    const data = [...dataList];
+    data.sort((a, b) => {
+        const aNums = countNum(a);
+        const bNums = countNum(b);
+        const aNum1 = (aNums['.'] || 0) + (aNums['+'] || 0) + (aNums['*'] || 0);
+        const bNum1 = (bNums['.'] || 0) + (bNums['+'] || 0) + (bNums['*'] || 0);
+        const aNum2 = aNums['#'] / (aNums['-'] || 1000);
+        const bNum2 = bNums['#'] / (bNums['-'] || 1000);
+
+        if (aNum1 < bNum1) {
+            return -1;
+        } else if (aNum1 === bNum1 && aNum2 < bNum2) {
+            return -1;
+        } else if (aNum2 === bNum2 && a.length < b.length) {
+            return -1;
+        } else if (a.length > b.length) {
+            return 1
+        }
+        return 0;
+    })
+
+    data.forEach(item => {
+        const aNums = countNum(item);
+        const aNum1 = (aNums['.'] || 0) + (aNums['+'] || 0) + (aNums['*'] || 0);
+        const aNum2 = aNums['#'] / (aNums['-'] || 1000);
+    })
+    return data;
+}
+
+export function stringOfNum(char, num) {
+    let result = '';
+    for (let i = 0; i < num; i++) {
+        result += char;
+    }
+    return result;
+}
+
+
+export function countNum(xsbStr) {
+    const result = {};
+    const chars = xsbStr.replace('\n', '').split('')
+    for (const char of chars) {
+        if (result[char] == null) {
+            result[char] = 0;
+        }
+        result[char] = result[char] + 1;
+    }
+    return result;
 }

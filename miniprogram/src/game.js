@@ -2,13 +2,14 @@ import {context} from "./global";
 import {BlockType} from "./base/blockType";
 import {getData} from "./data2";
 import {wait} from "./utils/common";
-import {getMaxXY, setXYOfBlocks} from "./utils/blockUtils";
+import {blockToXSB, getMaxXY, setXYOfBlocks} from "./utils/blockUtils";
 import {Gesture} from "./gestureListener";
 import {KeyBoard} from "./keyboardListener";
 import BackGround from './runtime/background'
 import Music from "./runtime/music";
 import {Button} from "./base/button";
 import ImageMgmt from "./runtime/image";
+import {getCurrentLevel, putCompleteLevel} from "./base/dataStore";
 
 const imageMgmt = new ImageMgmt();
 const MARGIN_LEFT = 25;
@@ -22,9 +23,10 @@ export default class BoxGame {
         this.music = new Music()
 
         console.log('画布宽高：', canvas.width, canvas.height);
+        this.historySteps = [];
         this.blocks = [];
         this.buttons = [];
-        this.level = 1;
+        this.level = getCurrentLevel();
         this.gesture = new Gesture(this.doDirection);
         this.keyboard = new KeyBoard(this.doDirection);
         this.onmove = undefined;
@@ -33,6 +35,7 @@ export default class BoxGame {
             this.music.playSuccess();
             this.gesture.clearGestureListener();
             this.keyboard.clearKeyboardListener();
+            putCompleteLevel(this.level);
             await wait(300);
             await this.load(this.level + 1);
         };
@@ -70,6 +73,7 @@ export default class BoxGame {
     initButtons() {
         this.buttons.push(new Button(context, 'prev', imageMgmt.btnPrev, 120, 60, 10, 80))
         this.buttons.push(new Button(context, 'next', imageMgmt.btnNext, 120, 60, 250, 80))
+        this.buttons.push(new Button(context, 'reset', imageMgmt.btnNext, 60, 60, 120, 500))
     }
 
 
@@ -101,6 +105,9 @@ export default class BoxGame {
         }
         if (button.name === 'next') {
             this.load(this.level + 1);
+        }
+        if (button.name === 'reset') {
+            this.load(this.level);
         }
 
     }
@@ -235,13 +242,15 @@ export default class BoxGame {
         }
         this.level = level;
         this.blocks = getData(level);
-        const {maxX} = getMaxXY(this.blocks);
+        const {maxX, maxY} = getMaxXY(this.blocks);
         const blockWidth = ((canvas.width - MARGIN_LEFT * 2) / (maxX + 1));
         setXYOfBlocks(this.blocks, blockWidth, MARGIN_TOP, MARGIN_LEFT);
         this.gesture.addGestureListener();
         this.keyboard.addKeyboardListener()
-        this.render();
+        // this.render();
 
+        console.log(blockToXSB(this.blocks))
+        console.log(maxX, maxY)
     }
 
 
