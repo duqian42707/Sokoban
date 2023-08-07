@@ -9,7 +9,7 @@ import BackGround from './runtime/background'
 import Music from "./runtime/music";
 import {Button} from "./base/button";
 import ImageMgmt from "./runtime/image";
-import {getCurrentLevel, putCompleteLevel} from "./base/dataStore";
+import {getCurrentLevel, putCompleteLevel, setCurrentLevel} from "./base/dataStore";
 
 const imageMgmt = new ImageMgmt();
 const MARGIN_LEFT = 25;
@@ -73,7 +73,7 @@ export default class BoxGame {
     initButtons() {
         this.buttons.push(new Button(context, 'prev', imageMgmt.btnPrev, 120, 60, 10, 80))
         this.buttons.push(new Button(context, 'next', imageMgmt.btnNext, 120, 60, 250, 80))
-        this.buttons.push(new Button(context, 'reset', imageMgmt.btnNext, 60, 60, 120, 500))
+        this.buttons.push(new Button(context, 'reset', imageMgmt.btnReset, 60, 60, canvas.width / 2 - 30, 530))
     }
 
 
@@ -107,7 +107,7 @@ export default class BoxGame {
             this.load(this.level + 1);
         }
         if (button.name === 'reset') {
-            this.load(this.level);
+            Confirm('确定要重置此关卡吗？', () => this.load(this.level));
         }
 
     }
@@ -242,12 +242,13 @@ export default class BoxGame {
         }
         this.level = level;
         this.blocks = getData(level);
+        setCurrentLevel(this.level);
         const {maxX, maxY} = getMaxXY(this.blocks);
         const blockWidth = ((canvas.width - MARGIN_LEFT * 2) / (maxX + 1));
         setXYOfBlocks(this.blocks, blockWidth, MARGIN_TOP, MARGIN_LEFT);
         this.gesture.addGestureListener();
         this.keyboard.addKeyboardListener()
-        // this.render();
+        this.render();
 
         console.log(blockToXSB(this.blocks))
         console.log(maxX, maxY)

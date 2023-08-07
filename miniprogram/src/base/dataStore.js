@@ -1,6 +1,6 @@
 export function getCompleteLevels() {
     const value = localStorage.getItem('complete_levels');
-    if (value == null) {
+    if (value == null || value === '') {
         return [];
     }
     return JSON.parse(value);
@@ -22,5 +22,8 @@ export function getCurrentLevel() {
         return 1;
     }
     return Number(lv);
+}
 
+export function setCurrentLevel(lv) {
+    localStorage.setItem('current_level', lv);
 }

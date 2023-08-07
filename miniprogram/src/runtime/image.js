@@ -40,6 +40,9 @@ export default class ImageMgmt {
         this.btnNext = new Image()
         this.btnNext.src = 'assets/arrow2.png'
 
+        this.btnReset = new Image()
+        this.btnReset.src = 'assets/reset.png'
+
     }
 
     getAllImage() {
@@ -53,7 +56,8 @@ export default class ImageMgmt {
             this.box,
             this.boxOnGoal,
             this.btnPrev,
-            this.btnNext
+            this.btnNext,
+            this.btnReset
         ]
     }
 
