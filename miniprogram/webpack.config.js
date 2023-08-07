@@ -23,8 +23,6 @@ module.exports = function (env = {}) {
                     loader: 'file-loader',
                 },
             ],
-
-            /* Advanced module configuration (click to show) */
         },
         devServer: {
             static: {

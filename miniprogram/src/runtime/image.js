@@ -59,10 +59,7 @@ export default class ImageMgmt {
 
     loadImage(img) {
         return new Promise((resolve) => {
-            img.onload = () => {
-                console.log('img loaded')
-                resolve(img);
-            }
+            img.onload = () => resolve(img);
         })
     }
 

@@ -1,6 +1,6 @@
 import {BlockType} from "./base/blockType";
 import {Block} from "./base/block";
-import {deleteColumns, deleteRows, getMaxXY, transposition} from "./utils";
+import {blockToXSB, deleteColumns, deleteRows, getMaxXY, transposition} from "./utils/blockUtils";
 
 const gameData = [{
     tree: '4,7|5,7|6,7|7,7|8,7|9,7|10,7|4,6|10,6|4,5|10,5|4,4|10,4|4,3|5,3|6,3|7,3|8,3|9,3|10,3',
@@ -575,22 +575,7 @@ const gameData = [{
 }];
 
 
-function parseBlocks(xsbText) {
-    const blocks = [];
-    const rows = xsbText.split('\n');
-    for (let i = 0; i < rows.length; i++) {
-        const row = rows[i];
-        const chars = row.split('');
-        for (let j = 0; j < chars.length; j++) {
-            const blockType = BlockType.parse(chars[j]);
-            blocks.push(new Block(blockType, j, i));
-        }
-    }
-    return blocks;
-}
-
-
-export default function getData(level) {
+export function getData(level) {
     const {tree, box, goal, boy} = gameData[level - 1];
     const dataArray = [];
     let blocks = [];
@@ -666,4 +651,15 @@ export default function getData(level) {
         blocks = transposition(blocks);
     }
     return blocks;
+}
+
+
+export function printXSBs() {
+    let result = [];
+    for (let i = 0; i < 100; i++) {
+        const blocks = getData(i + 1);
+        const str = blockToXSB(blocks);
+        result.push(str);
+    }
+    console.log(JSON.stringify(result));
 }

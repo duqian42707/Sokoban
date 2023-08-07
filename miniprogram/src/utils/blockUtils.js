@@ -1,10 +1,5 @@
-import {Block} from "./base/block";
-
-export function wait(ms) {
-    return new Promise((resolve) => {
-        setTimeout(resolve, ms);
-    });
-}
+import {Block} from "../base/block";
+import {BlockType} from "../base/blockType";
 
 /**
  * 行列转置
@@ -67,4 +62,46 @@ export function setXYOfBlocks(blocks, width, marginTop, marginLeft) {
         item.setMarginTop(marginTop)
         item.setMarginLeft(marginLeft)
     })
+}
+
+export function sortBlocks(blocks) {
+    blocks.sort((a, b) => a.row !== b.row ? (a.row - b.row) : (a.col - b.col));
+}
+
+
+/**
+ * 将xsb格式的文本转为block数组
+ * @param xsbText
+ * @returns {*[]}
+ */
+export function xsbToBlocks(xsbText) {
+    const blocks = [];
+    const rows = xsbText.split('\n');
+    for (let i = 0; i < rows.length; i++) {
+        const row = rows[i];
+        const chars = row.split('');
+        for (let j = 0; j < chars.length; j++) {
+            const blockType = BlockType.parse(chars[j]);
+            blocks.push(new Block(blockType, j, i));
+        }
+    }
+    return blocks;
+}
+
+
+/**
+ * 将block数组转为xsbText
+ * @param blocks
+ */
+export function blockToXSB(blocks) {
+    sortBlocks(blocks);
+    let str = '';
+    for (let i = 0; i < blocks.length; i++) {
+        const block = blocks[i];
+        if (i > 0 && block.col === 0) {
+            str += '\n';
+        }
+        str += block.type.text
+    }
+    return str;
 }

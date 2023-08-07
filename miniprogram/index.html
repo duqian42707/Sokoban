@@ -17,10 +17,14 @@
   </style>
 </head>
 <body>
-<canvas id="game" width="375" height="667"></canvas>
+<canvas id="game"></canvas>
+<script src="node_modules/eruda/eruda.js"></script>
+<script>eruda.init();</script>
 <script>
     const wx = undefined;
     const canvas = document.getElementById('game');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
 </script>
 <script src="js/app.js"></script>
 </body>

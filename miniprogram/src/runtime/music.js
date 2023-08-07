@@ -29,11 +29,11 @@ export default class Music {
 
     playStep() {
         this.stepAudio.currentTime = 0
-        this.stepAudio.play()
+        // this.stepAudio.play()
     }
 
     playSuccess() {
         this.successAudio.currentTime = 0
-        this.successAudio.play()
+        // this.successAudio.play()
     }
 }

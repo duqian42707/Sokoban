@@ -1,7 +1,8 @@
 import {context} from "./global";
 import {BlockType} from "./base/blockType";
-import getData from "./data";
-import {getMaxXY, setXYOfBlocks, wait} from "./utils";
+import {getData} from "./data2";
+import {wait} from "./utils/common";
+import {getMaxXY, setXYOfBlocks} from "./utils/blockUtils";
 import {Gesture} from "./gestureListener";
 import {KeyBoard} from "./keyboardListener";
 import BackGround from './runtime/background'
@@ -227,10 +228,10 @@ export default class BoxGame {
 
     async load(level) {
         if (level < 1) {
-            level = 1;
+            level = 100;
         }
         if (level > 100) {
-            level = 100;
+            level = 1;
         }
         this.level = level;
         this.blocks = getData(level);
