@@ -1,5 +1,6 @@
 import {Block} from "../base/block";
 import {BlockType} from "../base/blockType";
+import {solve} from "../solve";
 
 /**
  * 行列转置
@@ -104,4 +105,29 @@ export function blockToXSB(blocks) {
         str += block.type.text
     }
     return str;
+}
+
+
+export function countNum(xsbStr) {
+    const result = {};
+    const chars = xsbStr.replace('\n', '').split('')
+    for (const char of chars) {
+        if (result[char] == null) {
+            result[char] = 0;
+        }
+        result[char] = result[char] + 1;
+    }
+    return result;
+}
+
+
+
+export function solveAll(dataList) {
+    for (let i = 0; i < dataList.length; i++) {
+        const str = dataList[i];
+        const blocks = xsbToBlocks(str);
+        solve(blocks).then(steps => {
+            console.log('solved ' + (i + 1), steps)
+        })
+    }
 }

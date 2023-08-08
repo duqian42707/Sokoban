@@ -1,5 +1,4 @@
-import {xsbToBlocks} from "./utils/blockUtils";
-import {solve} from "./solve";
+import {xsbToBlocks} from "../utils/blockUtils";
 
 const dataList = [
     "#####\n#.-.#\n#$$-#\n#-@-#\n#-$$#\n#.-.#\n#####",
@@ -223,17 +222,3 @@ export function countNum(xsbStr) {
     return result;
 }
 
-export function solveAll() {
-    const json = [];
-    for (let i = 0; i < dataList.length; i++) {
-        const blocks = getData(i + 1);
-        const str = dataList[i];
-        const steps = solve(blocks);
-        json.push({
-            level: (i + 1),
-            xsb: str,
-            solve: steps
-        })
-    }
-    console.log(JSON.stringify(json))
-}

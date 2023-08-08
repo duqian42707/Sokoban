@@ -9,7 +9,7 @@
 //         也用“-”或“_”代替空格。(floor, represented by ' ' or '-' or '_')
 import Sprite from "./sprite";
 import {BlockType} from "./blockType";
-import ImageMgmt from "../runtime/ImageMgmt";
+import ImageMgmt from "../runtime/imageMgmt";
 
 
 export class Block extends Sprite {

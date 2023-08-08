@@ -1,15 +1,16 @@
 import {context} from "./global";
 import {BlockType} from "./base/blockType";
-import {getMaxXY, setXYOfBlocks} from "./utils/blockUtils";
+import {getMaxXY, setXYOfBlocks, solveAll, xsbToBlocks} from "./utils/blockUtils";
 import {Gesture} from "./gestureListener";
 import {KeyBoard} from "./keyboardListener";
 import BackGround from './runtime/background'
 import Music from "./runtime/music";
 import {Button} from "./base/button";
-import ImageMgmt from "./runtime/ImageMgmt";
+import ImageMgmt from "./runtime/imageMgmt";
 import {getCurrentLevel, putCompleteLevel, setCurrentLevel} from "./base/dataStore";
-import CommonUtils from "./utils/CommonUtils";
-import {getMaxLevel, getStateData} from "./data3";
+import CommonUtils from "./utils/commonUtils";
+import {StageMgmt} from "./runtime/stageMgmt";
+import {DifficultList} from "./data/difficult";
 
 const MARGIN_LEFT = 25;
 const MARGIN_TOP = 140;
@@ -69,12 +70,20 @@ export default class BoxGame {
         context.fillText('第 ' + this.level + ' 关', canvas.width / 2 - 40, 120, 80)
     }
 
-
+    /**
+     * 水平平均分布的按钮，x坐标计算公式：
+     * 假设共有m个按钮，每个按钮的宽度是width，第n个按钮的x坐标是
+     * n * canvas.width /(m+1) - 0.5*width
+     */
     initButtons() {
-        this.buttons.push(new Button(context, 'prev', 'assets/arrow1.png', 120, 60, 10, 80))
-        this.buttons.push(new Button(context, 'next', 'assets/arrow2.png', 120, 60, 250, 80))
-        this.buttons.push(new Button(context, 'reset', 'assets/reset.png', 60, 60, canvas.width / 2 - 100, 530))
-        this.buttons.push(new Button(context, 'solve', 'assets/solve.png', 60, 60, canvas.width / 2 + 30, 530))
+
+        this.buttons.push(new Button(context, 'prev', 'assets/arrow1.png', 120, 60, canvas.width / 3 - 60 - 50, 80))
+        this.buttons.push(new Button(context, 'next', 'assets/arrow2.png', 120, 60, 2 * canvas.width / 3 - 60 + 50, 80))
+
+        const width = canvas.width / 6;
+        this.buttons.push(new Button(context, 'reset', 'assets/reset.png', width, width, canvas.width / 3 - width / 2, 580))
+        this.buttons.push(new Button(context, 'back', 'assets/solve.png', width, width, 2 * canvas.width / 3 - width / 2, 580))
+        // this.buttons.push(new Button(context, 'solve', 'assets/solve.png', width, width, 3 * canvas.width / 4 - width / 2, 580))
     }
 
 
@@ -238,7 +247,7 @@ export default class BoxGame {
     }
 
     async load(level) {
-        const maxLevel = getMaxLevel();
+        const maxLevel = StageMgmt.getMaxLevel();
         if (level < 1) {
             level = maxLevel;
         }
@@ -246,7 +255,7 @@ export default class BoxGame {
             level = 1;
         }
         this.level = level;
-        this.stage = getStateData(level);
+        this.stage = StageMgmt.getStateData(level);
         this.blocks = this.stage.blocks
         setCurrentLevel(this.level);
         const {maxX, maxY} = getMaxXY(this.blocks);
@@ -262,6 +271,8 @@ export default class BoxGame {
 
         // solveAll();
         // format();
+
+        // solveAll(DifficultList);
     }
 
     /**

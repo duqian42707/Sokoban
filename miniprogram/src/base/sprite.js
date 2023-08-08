@@ -1,4 +1,4 @@
-import ImageMgmt from "../runtime/ImageMgmt";
+import ImageMgmt from "../runtime/imageMgmt";
 
 /**
  * 游戏基础的精灵类
