@@ -9,10 +9,12 @@
 //         也用“-”或“_”代替空格。(floor, represented by ' ' or '-' or '_')
 import Sprite from "./sprite";
 import {BlockType} from "./blockType";
+import ImageMgmt from "../runtime/ImageMgmt";
+
 
 export class Block extends Sprite {
     constructor(type, col, row) {
-        super(type.img, type.sourceWidth, type.sourceHeight)
+        super(type.imgSrc, type.sourceWidth, type.sourceHeight)
         this._type = type
         this.col = col;
         this.row = row;
@@ -22,7 +24,7 @@ export class Block extends Sprite {
 
     set type(value) {
         this._type = value;
-        this.img = value.img
+        this.img = ImageMgmt.getImageBySrc(value.imgSrc)
     }
 
     get type() {

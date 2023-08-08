@@ -1,9 +1,11 @@
+import ImageMgmt from "../runtime/ImageMgmt";
+
 /**
  * 游戏基础的精灵类
  */
 export default class Sprite {
-    constructor(img, width = 0, height = 0, x = 0, y = 0) {
-        this.img = img
+    constructor(imgSrc, width = 0, height = 0, x = 0, y = 0) {
+        this.img = ImageMgmt.getImageBySrc(imgSrc);
 
         this.width = width
         this.height = height
