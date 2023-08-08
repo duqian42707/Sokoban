@@ -1,7 +1,6 @@
 import {context} from "./global";
 import {BlockType} from "./base/blockType";
-import {getData, solveAll} from "./data2";
-import {blockToXSB, getMaxXY, setXYOfBlocks, xsbToBlocks} from "./utils/blockUtils";
+import {getMaxXY, setXYOfBlocks} from "./utils/blockUtils";
 import {Gesture} from "./gestureListener";
 import {KeyBoard} from "./keyboardListener";
 import BackGround from './runtime/background'
@@ -9,9 +8,8 @@ import Music from "./runtime/music";
 import {Button} from "./base/button";
 import ImageMgmt from "./runtime/ImageMgmt";
 import {getCurrentLevel, putCompleteLevel, setCurrentLevel} from "./base/dataStore";
-import {solve} from "./solve";
 import CommonUtils from "./utils/CommonUtils";
-import {format, getMaxLevel, getStateData} from "./data3";
+import {getMaxLevel, getStateData} from "./data3";
 
 const MARGIN_LEFT = 25;
 const MARGIN_TOP = 140;
@@ -249,7 +247,7 @@ export default class BoxGame {
         }
         this.level = level;
         this.stage = getStateData(level);
-        this.blocks = xsbToBlocks(this.stage.xsb)
+        this.blocks = this.stage.blocks
         setCurrentLevel(this.level);
         const {maxX, maxY} = getMaxXY(this.blocks);
         const blockWidth = ((canvas.width - MARGIN_LEFT * 2) / (maxX + 1));
@@ -257,7 +255,7 @@ export default class BoxGame {
         this.gesture.addGestureListener();
         this.keyboard.addKeyboardListener()
 
-        // this.render();
+        this.render();
 
         // console.log(this.stage)
         // console.log(maxX, maxY)
