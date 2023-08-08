@@ -1,4 +1,5 @@
 import {xsbToBlocks} from "./utils/blockUtils";
+import {solve} from "./solve";
 
 const dataList = [
     "#####\n#.-.#\n#$$-#\n#-@-#\n#-$$#\n#.-.#\n#####",
@@ -110,13 +111,10 @@ const dataList = [
 
 
 export function getData(level) {
-    let newDataList = sortByDifficult();
-    const res = getMaxColRows()
-    console.log('level: ' + level + ',max col,ros', res)
-    const asdf = countNum(newDataList[level]);
-    console.log(asdf)
-    newDataList = newDataList.map(item => adjustToArea(item, res.cols, res.rows));
-    return xsbToBlocks(newDataList[level - 1]);
+    // let newDataList = sortByDifficult();
+    // const res = getMaxColRows()
+    // newDataList = newDataList.map(item => adjustToArea(item, res.cols, res.rows));
+    return xsbToBlocks(dataList[level - 1]);
 }
 
 
@@ -223,4 +221,19 @@ export function countNum(xsbStr) {
         result[char] = result[char] + 1;
     }
     return result;
+}
+
+export function solveAll() {
+    const json = [];
+    for (let i = 0; i < dataList.length; i++) {
+        const blocks = getData(i + 1);
+        const str = dataList[i];
+        const steps = solve(blocks);
+        json.push({
+            level: (i + 1),
+            xsb: str,
+            solve: steps
+        })
+    }
+    console.log(JSON.stringify(json))
 }

@@ -1,15 +1,12 @@
-import {getData} from "../data2";
-import {solve} from "../solve";
-
 /**
  * 关卡
  */
 export class Stage {
 
-    constructor(level) {
+    constructor(level, xsb, solve) {
         this.level = level;
-        this.blocks = getData(level);
-        this.solveSteps = solve(this.blocks);
+        this.xsb = xsb;
+        this.solve = solve;
     }
 
 

@@ -130,7 +130,7 @@ export function solve(data) {
         UP = 2,
         DOWN = 3;
 
-    let results = null;
+    let results = [];
     // const x = Number(data.man[0]),
     //     y = Number(data.man[1]);
     const man = data.find(item => item.type === BlockType.MAN || item.type === BlockType.MAN_ON_GOAL);

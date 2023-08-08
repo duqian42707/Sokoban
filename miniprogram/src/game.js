@@ -1,7 +1,7 @@
 import {context} from "./global";
 import {BlockType} from "./base/blockType";
-import {getData} from "./data2";
-import {blockToXSB, getMaxXY, setXYOfBlocks} from "./utils/blockUtils";
+import {getData, solveAll} from "./data2";
+import {blockToXSB, getMaxXY, setXYOfBlocks, xsbToBlocks} from "./utils/blockUtils";
 import {Gesture} from "./gestureListener";
 import {KeyBoard} from "./keyboardListener";
 import BackGround from './runtime/background'
@@ -11,6 +11,7 @@ import ImageMgmt from "./runtime/ImageMgmt";
 import {getCurrentLevel, putCompleteLevel, setCurrentLevel} from "./base/dataStore";
 import {solve} from "./solve";
 import CommonUtils from "./utils/CommonUtils";
+import {format, getMaxLevel, getStateData} from "./data3";
 
 const MARGIN_LEFT = 25;
 const MARGIN_TOP = 140;
@@ -23,6 +24,7 @@ export default class BoxGame {
         this.music = new Music()
 
         console.log('画布宽高：', canvas.width, canvas.height);
+        this.stage = null;
         this.historySteps = [];
         this.blocks = [];
         this.buttons = [];
@@ -238,32 +240,37 @@ export default class BoxGame {
     }
 
     async load(level) {
+        const maxLevel = getMaxLevel();
         if (level < 1) {
-            level = 100;
+            level = maxLevel;
         }
-        if (level > 100) {
+        if (level > maxLevel) {
             level = 1;
         }
         this.level = level;
-        this.blocks = getData(level);
+        this.stage = getStateData(level);
+        this.blocks = xsbToBlocks(this.stage.xsb)
         setCurrentLevel(this.level);
         const {maxX, maxY} = getMaxXY(this.blocks);
         const blockWidth = ((canvas.width - MARGIN_LEFT * 2) / (maxX + 1));
         setXYOfBlocks(this.blocks, blockWidth, MARGIN_TOP, MARGIN_LEFT);
         this.gesture.addGestureListener();
         this.keyboard.addKeyboardListener()
+
         // this.render();
 
-        console.log(blockToXSB(this.blocks))
-        console.log(maxX, maxY)
+        // console.log(this.stage)
+        // console.log(maxX, maxY)
+
+        // solveAll();
+        // format();
     }
 
     /**
      * 自动解答
      */
     async solve() {
-        const steps = solve(this.blocks);
-
+        const steps = this.stage.solve;
         this.load(this.level);
         for (let i = 0; i < steps.length; i++) {
             const direction = steps[i];
