@@ -150,8 +150,8 @@ export class Stage {
         const rowsNum = rows.length;
         const colsNum = rows[0].length;
 
-        const addRows = (targetRows - rowsNum) / 2;
-        const addCols = (targetCols - colsNum) / 2;
+        const addRows = (targetRows + 1 - rowsNum) / 2;
+        const addCols = (targetCols + 1 - colsNum) / 2;
 
         for (let i = 0; i < addRows; i++) {
             rows.splice(0, 0, CommonUtils.stringOfNum('-', colsNum));

@@ -29,7 +29,28 @@ export default class PureColorSprite {
         ctx.closePath();
         ctx.fillStyle = this.color
         ctx.fill();
+
+        this.drawTextToCanvas(ctx);
     }
 
+    drawTextToCanvas(ctx) {
+
+    }
+
+
+    getButtonTapArea() {
+        const delta = 20
+        return {
+            startX: this.x - delta,
+            startY: this.y - delta,
+            endX: this.x + this.width + delta,
+            endY: this.y + this.height + delta
+        }
+    }
+
+    isTapped(x, y) {
+        const {startX, startY, endX, endY} = this.getButtonTapArea();
+        return x > startX && x < endX && y > startY && y < endY;
+    }
 
 }

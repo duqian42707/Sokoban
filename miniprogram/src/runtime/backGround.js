@@ -5,7 +5,7 @@ const screenWidth = window.innerWidth
 const screenHeight = window.innerHeight
 
 const maxCol = Config.MAX_COL;
-const COLORS = ['#74f8f4', '#0cc4ff']
+const COLORS = ['#7df6f2', '#5fe9f6']
 
 /**
  * 游戏背景类
@@ -13,7 +13,7 @@ const COLORS = ['#74f8f4', '#0cc4ff']
  */
 export default class BackGround {
 
-    constructor(ctx) {
+    constructor() {
     }
 
     render(ctx) {
@@ -21,18 +21,18 @@ export default class BackGround {
         // 1. 纯色背景
         ctx.fillStyle = '#a1f8d1';
         ctx.fillRect(0, 0, screenWidth, screenHeight);
-
-        const blockWidth = screenWidth / (maxCol + 1);
-        const maxRow = screenHeight / blockWidth + 1;
+        const blockWidth = Math.floor(screenWidth / (maxCol + 1));
+        const maxRow = Math.floor(screenHeight / blockWidth) + 1;
+        console.log(`width:${blockWidth},maxCol:${maxCol},maxRow:${maxRow}`)
         for (let i = 0; i <= maxRow; i++) {
             for (let j = 0; j <= maxCol; j++) {
-                const index = (maxRow + 1) * j + i;
-                const idx = index % 2;
+                let index = (maxCol + 1) * i + j;
+                const idx = (index + (maxCol % 2) * i) % 2;
                 const color = COLORS[idx];
                 const x = j * blockWidth;
                 const y = i * blockWidth;
                 console.log(`index:${index},idx:${idx},color:${color},xy:${x},${y}`)
-                const pureColorSprite = new PureColorSprite(color, blockWidth, blockWidth, x, y, 10);
+                const pureColorSprite = new PureColorSprite(color, blockWidth, blockWidth, x, y, 8);
                 pureColorSprite.drawToCanvas(ctx);
             }
         }

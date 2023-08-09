@@ -1,16 +1,14 @@
 import {Config, context} from "./global";
 import {BlockType} from "./base/blockType";
-import {getMaxXY, setXYOfBlocks, solveAll, xsbToBlocks} from "./utils/blockUtils";
+import {getMaxXY, setXYOfBlocks} from "./utils/blockUtils";
 import {Gesture} from "./gestureListener";
 import {KeyBoard} from "./keyboardListener";
-import BackGround from './runtime/background'
+import BackGround from './runtime/backGround'
 import Music from "./runtime/music";
 import {Button} from "./base/button";
-import ImageMgmt from "./runtime/imageMgmt";
-import {getCurrentLevel, putCompleteLevel, setCurrentLevel} from "./base/dataStore";
+import DataStore from "./base/dataStore";
 import CommonUtils from "./utils/commonUtils";
 import {StageMgmt} from "./runtime/stageMgmt";
-import {DifficultList} from "./data/difficult";
 
 const MARGIN_LEFT = 25;
 const MARGIN_TOP = 140;
@@ -18,8 +16,8 @@ const MARGIN_TOP = 140;
 
 export default class BoxGame {
 
-    constructor() {
-        this.bg = new BackGround(context);
+    constructor(level) {
+        this.bg = new BackGround();
         this.music = new Music()
 
         console.log('画布宽高：', canvas.width, canvas.height);
@@ -27,7 +25,11 @@ export default class BoxGame {
         this.historySteps = [];
         this.blocks = [];
         this.buttons = [];
-        this.level = getCurrentLevel();
+        if (level) {
+            this.level = level
+        } else {
+            this.level = DataStore.getCurrentLevel();
+        }
         this.gesture = new Gesture(this.doDirection);
         this.keyboard = new KeyBoard(this.doDirection);
         this.onmove = undefined;
@@ -36,7 +38,7 @@ export default class BoxGame {
             this.music.playSuccess();
             this.gesture.clearGestureListener();
             this.keyboard.clearKeyboardListener();
-            putCompleteLevel(this.level);
+            DataStore.putCompleteLevel(this.level);
             await CommonUtils.wait(300);
             await this.load(this.level + 1);
         };
@@ -44,15 +46,10 @@ export default class BoxGame {
 
     }
 
-    async init() {
-        await this.loadImages();
+    init() {
+        console.log('init');
         this.initButtons();
         this.load(this.level);
-    }
-
-    loadImages() {
-        const promArray = ImageMgmt.getAllImage().map(item => ImageMgmt.loadImage(item));
-        return Promise.all(promArray);
     }
 
 
@@ -61,6 +58,7 @@ export default class BoxGame {
      * 每一帧重新绘制所有的需要展示的元素
      */
     render() {
+        console.log('render...')
         context.clearRect(0, 0, canvas.width, canvas.height)
         this.bg.render(context)
         this.blocks.forEach(item => item.drawToCanvas(context))
@@ -254,26 +252,18 @@ export default class BoxGame {
         if (level > maxLevel) {
             level = 1;
         }
+        console.log('load...', level);
         this.level = level;
         this.stage = StageMgmt.getStateData(level);
         this.stage.adjustToArea(Config.MAX_COL - 4, Config.MAX_ROW)
         this.blocks = this.stage.blocks
-        setCurrentLevel(this.level);
+        DataStore.setCurrentLevel(this.level);
         const {maxX, maxY} = getMaxXY(this.blocks);
         const blockWidth = ((canvas.width - MARGIN_LEFT * 2) / (maxX + 1));
         setXYOfBlocks(this.blocks, blockWidth, MARGIN_TOP, MARGIN_LEFT);
         this.gesture.addGestureListener();
         this.keyboard.addKeyboardListener()
-
         this.render();
-
-        // console.log(this.stage)
-        // console.log(maxX, maxY)
-
-        // solveAll();
-        // format();
-
-        // solveAll(DifficultList);
     }
 
     /**

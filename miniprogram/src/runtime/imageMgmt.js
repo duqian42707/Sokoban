@@ -37,6 +37,7 @@ export default class ImageMgmt {
 
     static loadImage(img) {
         return new Promise((resolve) => {
+            console.log('loadImage..', img)
             img.onload = () => resolve(img);
         })
     }

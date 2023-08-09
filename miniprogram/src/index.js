@@ -1,4 +1,6 @@
 import './libs/weapp-adapter-ext'
-import BoxGame from './game';
+import Home from "./home";
 
-new BoxGame();
+
+new Home();
+
