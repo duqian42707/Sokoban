@@ -1,5 +1,7 @@
 import PureColorSprite from "./pureColorSprite";
 
+const gutter = 10;
+
 export class StageBlock extends PureColorSprite {
     constructor(level, pass = false, width, x, y) {
         const color = pass ? '#fc4242' : '#797777';
@@ -9,11 +11,21 @@ export class StageBlock extends PureColorSprite {
     }
 
     drawTextToCanvas(ctx) {
-        const x = this.x + 10;
-        const y = this.y + 10;
-        const maxWidth = this.width - 20;
-        ctx.font = "30px Arial"
+        const text = this.level;
+
+        let x, y;
+        if (this.level < 10) {
+            ctx.font = "50px Arial"
+        } else if (this.level < 100) {
+            ctx.font = "50px Arial"
+        } else {
+            ctx.font = "50px Arial"
+        }
+        const textWidth = ctx.measureText(text).width;
+        x = this.x + this.width / 2 - textWidth / 2 + 1;
+        y = this.y + this.width - gutter - 3;
+
         ctx.fillStyle = '#fff'
-        ctx.fillText(this.level, x, y, maxWidth);
+        ctx.fillText(text, x, y, 50);
     }
 }

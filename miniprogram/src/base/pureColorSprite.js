@@ -23,12 +23,15 @@ export default class PureColorSprite {
         if (!this.visible) {
             return;
         }
-        ctx.strokeStyle = this.color
-        ctx.beginPath();
-        ctx.roundRect(this.x, this.y, this.width, this.height, this.radius)
-        ctx.closePath();
         ctx.fillStyle = this.color
-        ctx.fill();
+        ctx.fillRect(this.x, this.y, this.width, this.height)
+
+        // ctx.strokeStyle = this.color
+        // ctx.beginPath();
+        // ctx.roundRect(this.x, this.y, this.width, this.height, this.radius)
+        // ctx.closePath();
+        // ctx.fillStyle = this.color
+        // ctx.fill();
 
         this.drawTextToCanvas(ctx);
     }

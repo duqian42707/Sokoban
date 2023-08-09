@@ -9,15 +9,16 @@ import {Button} from "./base/button";
 import DataStore from "./base/dataStore";
 import CommonUtils from "./utils/commonUtils";
 import {StageMgmt} from "./runtime/stageMgmt";
-import SelectStage from "./selectStage";
+import Home from "./home";
 
 const MARGIN_LEFT = 25;
-const MARGIN_TOP = 140;
-
+const MARGIN_TOP = 120;
 
 export default class BoxGame {
 
     constructor(level) {
+        this.home = new Home();
+
         this.bg = new BackGround();
         this.music = new Music()
 
@@ -64,7 +65,7 @@ export default class BoxGame {
         this.bg.render(context)
         this.blocks.forEach(item => item.drawToCanvas(context))
         this.buttons.forEach(item => item.drawToCanvas(context))
-        context.fillStyle = '#fff'
+        context.fillStyle = '#000'
         context.font = "30px Arial"
         context.fillText('第 ' + this.level + ' 关', canvas.width / 2 - 40, 120, 80)
     }
@@ -80,8 +81,8 @@ export default class BoxGame {
         this.buttons.push(new Button(context, 'next', 'assets/arrow2.png', 120, 60, 2 * canvas.width / 3 - 60 + 50, 80))
 
         const width = canvas.width / 6;
-        this.buttons.push(new Button(context, 'reset', 'assets/reset.png', width, width, canvas.width / 3 - width / 2, 580))
-        this.buttons.push(new Button(context, 'selectStage', 'assets/solve.png', width, width, 2 * canvas.width / 3 - width / 2, 580))
+        this.buttons.push(new Button(context, 'selectStage', 'assets/select_stage.png', width, width, canvas.width / 3 - width / 2, 580))
+        this.buttons.push(new Button(context, 'reset', 'assets/reset.png', width, width, 2 * canvas.width / 3 - width / 2, 580))
         // this.buttons.push(new Button(context, 'back', 'assets/solve.png', width, width, 2 * canvas.width / 3 - width / 2, 580))
         // this.buttons.push(new Button(context, 'solve', 'assets/solve.png', width, width, 3 * canvas.width / 4 - width / 2, 580))
     }
@@ -117,12 +118,13 @@ export default class BoxGame {
             this.load(this.level + 1);
         }
         if (button.name === 'selectStage') {
-            new SelectStage();
+            this.home.toSelectStage();
             this.keyboard.clearKeyboardListener();
             this.gesture.clearGestureListener();
         }
         if (button.name === 'reset') {
-            Confirm('确定要重置此关卡吗？', () => this.load(this.level));
+            // Confirm('确定要重置此关卡吗？', () => this.load(this.level));
+            this.load(this.level);
         }
         if (button.name === 'solve') {
             Confirm('确定要查看答案吗？', () => this.solve());

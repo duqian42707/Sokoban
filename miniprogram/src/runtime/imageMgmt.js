@@ -11,6 +11,7 @@ const imgSrcList = [
     'assets/arrow2.png',
     'assets/reset.png',
     'assets/solve.png',
+    'assets/select_stage.png',
 ];
 
 const imageList = imgSrcList.map(src => {
@@ -37,7 +38,6 @@ export default class ImageMgmt {
 
     static loadImage(img) {
         return new Promise((resolve) => {
-            console.log('loadImage..', img)
             img.onload = () => resolve(img);
         })
     }

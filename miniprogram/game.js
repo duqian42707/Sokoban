@@ -1,7 +1,8 @@
 import './src/libs/weapp-adapter'
 import './src/libs/symbol'
 import './src/libs/weapp-adapter-ext'
-import BoxGame from './src/game';
+import Home from './src/home';
 
-new BoxGame();
+const home = new Home();
+home.init();
 

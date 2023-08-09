@@ -20,7 +20,7 @@ export default class BackGround {
         // 1. 纯色背景
         ctx.fillStyle = '#a1f8d1';
         ctx.fillRect(0, 0, screenWidth, screenHeight);
-        const blockWidth = Math.floor(screenWidth / (maxCol + 1));
+        const blockWidth = screenWidth / (maxCol + 1);
         const maxRow = Math.floor(screenHeight / blockWidth) + 1;
         for (let i = 0; i <= maxRow; i++) {
             for (let j = 0; j <= maxCol; j++) {

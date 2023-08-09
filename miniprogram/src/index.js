@@ -1,5 +1,6 @@
 import './libs/weapp-adapter-ext'
 import Home from "./home";
 
-new Home();
+const home = new Home();
+home.init();
 
