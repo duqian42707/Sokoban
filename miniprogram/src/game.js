@@ -9,6 +9,7 @@ import {Button} from "./base/button";
 import DataStore from "./base/dataStore";
 import CommonUtils from "./utils/commonUtils";
 import {StageMgmt} from "./runtime/stageMgmt";
+import SelectStage from "./selectStage";
 
 const MARGIN_LEFT = 25;
 const MARGIN_TOP = 140;
@@ -47,7 +48,7 @@ export default class BoxGame {
     }
 
     init() {
-        console.log('init');
+        console.log('init game ' + this.level);
         this.initButtons();
         this.load(this.level);
     }
@@ -80,7 +81,8 @@ export default class BoxGame {
 
         const width = canvas.width / 6;
         this.buttons.push(new Button(context, 'reset', 'assets/reset.png', width, width, canvas.width / 3 - width / 2, 580))
-        this.buttons.push(new Button(context, 'back', 'assets/solve.png', width, width, 2 * canvas.width / 3 - width / 2, 580))
+        this.buttons.push(new Button(context, 'selectStage', 'assets/solve.png', width, width, 2 * canvas.width / 3 - width / 2, 580))
+        // this.buttons.push(new Button(context, 'back', 'assets/solve.png', width, width, 2 * canvas.width / 3 - width / 2, 580))
         // this.buttons.push(new Button(context, 'solve', 'assets/solve.png', width, width, 3 * canvas.width / 4 - width / 2, 580))
     }
 
@@ -113,6 +115,11 @@ export default class BoxGame {
         }
         if (button.name === 'next') {
             this.load(this.level + 1);
+        }
+        if (button.name === 'selectStage') {
+            new SelectStage();
+            this.keyboard.clearKeyboardListener();
+            this.gesture.clearGestureListener();
         }
         if (button.name === 'reset') {
             Confirm('确定要重置此关卡吗？', () => this.load(this.level));

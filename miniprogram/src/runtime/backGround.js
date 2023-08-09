@@ -17,13 +17,11 @@ export default class BackGround {
     }
 
     render(ctx) {
-
         // 1. 纯色背景
         ctx.fillStyle = '#a1f8d1';
         ctx.fillRect(0, 0, screenWidth, screenHeight);
         const blockWidth = Math.floor(screenWidth / (maxCol + 1));
         const maxRow = Math.floor(screenHeight / blockWidth) + 1;
-        console.log(`width:${blockWidth},maxCol:${maxCol},maxRow:${maxRow}`)
         for (let i = 0; i <= maxRow; i++) {
             for (let j = 0; j <= maxCol; j++) {
                 let index = (maxCol + 1) * i + j;
@@ -31,7 +29,6 @@ export default class BackGround {
                 const color = COLORS[idx];
                 const x = j * blockWidth;
                 const y = i * blockWidth;
-                console.log(`index:${index},idx:${idx},color:${color},xy:${x},${y}`)
                 const pureColorSprite = new PureColorSprite(color, blockWidth, blockWidth, x, y, 8);
                 pureColorSprite.drawToCanvas(ctx);
             }
