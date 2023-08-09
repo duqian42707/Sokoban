@@ -1,4 +1,4 @@
-import {context} from "./global";
+import {Config, context} from "./global";
 import {BlockType} from "./base/blockType";
 import {getMaxXY, setXYOfBlocks, solveAll, xsbToBlocks} from "./utils/blockUtils";
 import {Gesture} from "./gestureListener";
@@ -256,6 +256,7 @@ export default class BoxGame {
         }
         this.level = level;
         this.stage = StageMgmt.getStateData(level);
+        this.stage.adjustToArea(Config.MAX_COL - 4, Config.MAX_ROW)
         this.blocks = this.stage.blocks
         setCurrentLevel(this.level);
         const {maxX, maxY} = getMaxXY(this.blocks);

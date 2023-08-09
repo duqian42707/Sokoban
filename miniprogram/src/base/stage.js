@@ -1,6 +1,6 @@
-import {Block} from "./block";
-import {deleteColumns, deleteRows, getMaxXY, hideEmptyBlocks, xsbToBlocks} from "../utils/blockUtils";
+import {blockToXSB, deleteColumns, deleteRows, getMaxXY, xsbToBlocks} from "../utils/blockUtils";
 import {BlockType} from "./blockType";
+import CommonUtils from "../utils/commonUtils";
 
 /**
  * 关卡
@@ -17,7 +17,6 @@ export class Stage {
         this.maxY = maxXY.maxY;
 
         this.autoDeleteRowCols();
-        this.autoHideEmptyBlocks();
         this.autoTransposition();
     }
 
@@ -62,6 +61,7 @@ export class Stage {
         const maxXY = getMaxXY(this.blocks);
         this.maxX = maxXY.maxX;
         this.maxY = maxXY.maxY;
+        this.xsb = blockToXSB(this.blocks);
     }
 
 
@@ -134,8 +134,41 @@ export class Stage {
                 item.col = row;
                 item.row = col;
             });
+            this.xsb = blockToXSB(this.blocks);
         }
     }
 
+
+    /**
+     * 给地图四周添加空白，以保持显示大小基本不变
+     * @param xsbStr
+     * @param targetCols
+     * @param targetRows
+     */
+    adjustToArea(targetCols, targetRows) {
+        const rows = this.xsb.split('\n');
+        const rowsNum = rows.length;
+        const colsNum = rows[0].length;
+
+        const addRows = (targetRows - rowsNum) / 2;
+        const addCols = (targetCols - colsNum) / 2;
+
+        for (let i = 0; i < addRows; i++) {
+            rows.splice(0, 0, CommonUtils.stringOfNum('-', colsNum));
+            rows.push(CommonUtils.stringOfNum('-', colsNum));
+        }
+
+        for (let i = 0; i < rows.length; i++) {
+            rows[i] = CommonUtils.stringOfNum('-', addCols) + rows[i] + CommonUtils.stringOfNum('-', addCols);
+        }
+
+        this.xsb = rows.join('\n');
+        this.blocks = xsbToBlocks(this.xsb);
+        const maxXY = getMaxXY(this.blocks);
+        this.maxX = maxXY.maxX;
+        this.maxY = maxXY.maxY;
+
+        this.autoHideEmptyBlocks();
+    }
 
 }
