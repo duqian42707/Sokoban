@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>推箱子</title>
+  <style>
+      * {
+          margin: 0;
+          padding: 0
+      }
+
+      #game {
+          display: block;
+      }
+  </style>
+</head>
+<body>
+<canvas id="game"></canvas>
+<script>
+    ;(function () {
+        var src = 'node_modules/eruda/eruda.js';
+        if (!/eruda=true/.test(window.location)) return;
+        document.write('<scr' + 'ipt src="' + src + '"></scr' + 'ipt>');
+        document.write('<scr' + 'ipt>eruda.init();</scr' + 'ipt>');
+    })();
+</script>
+<script>
+    const wx = undefined;
+    const canvas = document.getElementById('game');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+</script>
+<script src="js/app.js"></script>
+</body>
+</html>
