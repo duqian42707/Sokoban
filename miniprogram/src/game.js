@@ -67,7 +67,8 @@ export default class BoxGame {
         this.buttons.forEach(item => item.drawToCanvas(context))
         context.fillStyle = '#000'
         context.font = "30px Arial"
-        context.fillText('第 ' + this.level + ' 关', canvas.width / 2 - 40, 120, 80)
+        context.textAlign = 'center'
+        context.fillText('第 ' + this.level + ' 关', canvas.width / 2, 120, 80)
     }
 
     /**

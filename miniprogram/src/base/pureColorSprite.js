@@ -1,3 +1,5 @@
+import ContextUtils from "../utils/contextUtils";
+
 /**
  * 游戏基础的精灵类
  */
@@ -23,23 +25,8 @@ export default class PureColorSprite {
         if (!this.visible) {
             return;
         }
-        ctx.fillStyle = this.color
-        ctx.fillRect(this.x, this.y, this.width, this.height)
-
-        // ctx.strokeStyle = this.color
-        // ctx.beginPath();
-        // ctx.roundRect(this.x, this.y, this.width, this.height, this.radius)
-        // ctx.closePath();
-        // ctx.fillStyle = this.color
-        // ctx.fill();
-
-        this.drawTextToCanvas(ctx);
+        ContextUtils.fillRoundRect(ctx, this.x, this.y, this.width, this.height, this.radius, this.color)
     }
-
-    drawTextToCanvas(ctx) {
-
-    }
-
 
     getButtonTapArea() {
         const delta = 20
