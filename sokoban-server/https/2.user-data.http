@@ -1,0 +1,22 @@
+### getUserData
+GET http://localhost:8080/api/userData
+Content-Type: application/json
+Authorization: bearer {{token}}
+
+
+### saveUserData
+POST http://localhost:8080/api/userData
+Content-Type: application/json
+Authorization: bearer {{token}}
+
+{
+  "completeLevels": [
+    1,
+    2,
+    3,
+    21,
+    22
+  ]
+}
+
+###

@@ -1,0 +1,42 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /
+spring:
+  application:
+    name: soccer-server
+  thymeleaf:
+    prefix: classpath:/static/
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+  web:
+    resources:
+      cache:
+        cachecontrol:
+          cache-public: true
+          max-age: 86400
+  datasource:
+    #    driver-class-name: org.postgresql.Driver
+    #    url: jdbc:postgresql://localhost:5432/sokoban
+    #    username: postgres
+    #    password: 123456
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:sokoban
+    username: sa
+    password: 111111
+  jpa:
+    properties:
+      hibernate.hbm2ddl.auto: update
+logging:
+  pattern:
+    console: '%d{yyyy-MM-dd HH:mm:ss} %clr(%5p) [%12.12t] %clr(%-50.50logger{49}){cyan} [%5.5L] : %m%n%wEx'
+  level:
+    root: info
+    com.dqv5: debug
+    org.hibernate.SQL: debug
+    org.hibernate.type.descriptor.sql.BasicBinder: trace
+sokoban:
+  app-id: xxxx
+  app-secret: yyyy
