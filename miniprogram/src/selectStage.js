@@ -8,8 +8,8 @@ import Home from "./home";
 import ContextUtils from "./utils/contextUtils";
 
 const MARGIN_LEFT = 20;
-const MARGIN_TOP = 100;
-const MARGIN_BOTTOM = 100;
+const MARGIN_TOP = 110;
+const MARGIN_BOTTOM = 70;
 const maxCol = 4;
 const gutter = 4;
 
@@ -50,7 +50,6 @@ export default class SelectStage {
     }
 
     swipeAnimate = () => {
-
         this.stageList.forEach(stageBlock => {
             stageBlock.y += this.offsetY / 10
         })
@@ -75,7 +74,8 @@ export default class SelectStage {
         this.renderMainSection(context);
     }
 
-    initStageList(ctx) {
+    initStageList() {
+        this.stageList = [];
         const completeLevels = DataStore.getCompleteLevels();
         const blockWidth = Math.floor((canvas.width - MARGIN_LEFT * 2) / (maxCol + 1));
         for (let i = 0; i < DATA_LIST.length; i++) {
