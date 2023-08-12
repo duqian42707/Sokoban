@@ -1,0 +1,25 @@
+<canvas id="canvas" width="300" height="600"></canvas>
+<script>
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+
+</script>
+<script>
+    let x = 0, y = 0, width = 300, height = 200, offsetY = 80;
+    // 画个长方形,限制范围
+    ctx.save();
+    ctx.moveTo(x, y);
+    ctx.lineTo(x + width, y);
+    ctx.lineTo(x + width, y + height);
+    ctx.lineTo(x, y + height);
+    ctx.closePath();
+    ctx.fillStyle = "#000"
+    ctx.stroke();
+    // 以该长方形作为范围剪裁
+    ctx.clip();
+    for (let index = 0; index < 20; index++) {  // 生成20行文字
+        ctx.font = `15px 黑体`;
+        ctx.fillText("xxx" + index, x, y + index * 20 - offsetY);
+    }
+    ctx.restore();
+</script>

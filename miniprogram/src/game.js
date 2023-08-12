@@ -32,7 +32,7 @@ export default class BoxGame {
         } else {
             this.level = DataStore.getCurrentLevel();
         }
-        this.gesture = new Gesture(this.doDirection);
+        this.gesture = new Gesture({onSwipe: this.doDirection, onTap: this.tapButton});
         this.keyboard = new KeyBoard(this.doDirection);
         this.onmove = undefined;
         this.onLevelComplete = async () => {
@@ -94,24 +94,33 @@ export default class BoxGame {
     }
 
 
-    doDirection = async (direction) => {
-        if (typeof direction === 'object') {
-            const button = this.buttons.find(item => item.isTapped(direction[0], direction[1]))
-            if (button != null) {
-                this.tapButton(button);
-            }
+    doDirection = async (evt) => {
+        let direction = '';
+        if (evt.direction === 2) {
+            direction = 'left'
+        } else if (evt.direction === 4) {
+            direction = 'right';
+        } else if (evt.direction === 8) {
+            direction = 'up';
+        } else if (evt.direction === 16) {
+            direction = 'down';
+        } else {
+            return;
         }
-        if (typeof direction === 'string') {
-            await this.move(direction);
-            if (this.isWin()) {
-                if (this.onLevelComplete) {
-                    await this.onLevelComplete();
-                }
+        await this.move(direction);
+        if (this.isWin()) {
+            if (this.onLevelComplete) {
+                await this.onLevelComplete();
             }
         }
     }
 
-    tapButton(button) {
+    tapButton = async (evt) => {
+        const center = evt.center;
+        const button = this.buttons.find(item => item.isTapped(center.x, center.y))
+        if (button == null) {
+            return;
+        }
         if (button.name === 'prev') {
             this.load(this.level - 1);
         }

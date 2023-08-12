@@ -1,17 +1,41 @@
 {
   "description": "项目配置文件。",
   "setting": {
+    "localPlugins": false,
     "urlCheck": true,
     "es6": true,
+    "enhance": false,
     "postcss": true,
+    "preloadBackgroundData": false,
     "minified": true,
     "newFeature": true,
+    "coverView": false,
+    "autoAudits": false,
+    "showShadowRootInWxmlPanel": false,
+    "uglifyFileName": false,
+    "checkInvalidKey": true,
+    "checkSiteMap": true,
+    "uploadWithSourceMap": true,
+    "compileHotReLoad": false,
+    "lazyloadPlaceholderEnable": false,
+    "useMultiFrameRuntime": true,
+    "useApiHook": true,
+    "useApiHostProcess": true,
     "babelSetting": {
       "ignore": [],
       "disablePlugins": [],
       "outputPath": ""
     },
-    "condition": false
+    "useIsolateContext": false,
+    "userConfirmedUseIsolateContext": true,
+    "userConfirmedBundleSwitch": false,
+    "packNpmManually": false,
+    "packNpmRelationList": [],
+    "minifyWXSS": true,
+    "disableUseStrict": false,
+    "showES6CompileOption": false,
+    "useCompilerPlugins": false,
+    "ignoreUploadUnusedFiles": true
   },
   "compileType": "game",
   "libVersion": "2.20.1",
@@ -19,7 +43,6 @@
   "projectname": "quickstart-wx-cloud-game",
   "miniprogramRoot": "miniprogram/",
   "cloudfunctionRoot": "cloudfunction/",
-  "condition": {},
   "srcMiniprogramRoot": "miniprogram/",
   "packOptions": {
     "ignore": [],
@@ -28,5 +51,6 @@
   "editorSetting": {
     "tabIndent": "insertSpaces",
     "tabSize": 2
-  }
+  },
+  "condition": {}
 }
