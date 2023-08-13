@@ -12,7 +12,7 @@ import {StageMgmt} from "./runtime/stageMgmt";
 import Home from "./home";
 
 const MARGIN_LEFT = 25;
-const MARGIN_TOP = 120;
+const MARGIN_TOP = 135;
 
 export default class BoxGame {
 
@@ -32,7 +32,7 @@ export default class BoxGame {
         } else {
             this.level = DataStore.getCurrentLevel();
         }
-        this.gesture = new Gesture({onSwipe: this.doDirection, onTap: this.tapButton});
+        this.gesture = new Gesture({onPan: this.doDirection, onTap: this.tapButton});
         this.keyboard = new KeyBoard(this.doDirection);
         this.onmove = undefined;
         this.onLevelComplete = async () => {
@@ -82,9 +82,9 @@ export default class BoxGame {
         this.buttons.push(new Button(context, 'next', 'assets/arrow2.png', 120, 60, 2 * canvas.width / 3 - 60 + 50, 80))
 
         const width = canvas.width / 6;
-        this.buttons.push(new Button(context, 'selectStage', 'assets/select_stage.png', width, width, canvas.width / 3 - width / 2, 580))
-        this.buttons.push(new Button(context, 'reset', 'assets/reset.png', width, width, 2 * canvas.width / 3 - width / 2, 580))
-        // this.buttons.push(new Button(context, 'back', 'assets/solve.png', width, width, 2 * canvas.width / 3 - width / 2, 580))
+        this.buttons.push(new Button(context, 'selectStage', 'assets/select_stage.png', width, width, canvas.width / 4 - width / 2, 580))
+        this.buttons.push(new Button(context, 'reset', 'assets/reset.png', width, width, 2 * canvas.width / 4 - width / 2, 580))
+        this.buttons.push(new Button(context, 'back', 'assets/goback.png', width, width, 3 * canvas.width / 4 - width / 2, 580))
         // this.buttons.push(new Button(context, 'solve', 'assets/solve.png', width, width, 3 * canvas.width / 4 - width / 2, 580))
     }
 
@@ -95,6 +95,7 @@ export default class BoxGame {
 
 
     doDirection = async (evt) => {
+        if (!evt.isFinal) return;
         let direction = '';
         if (evt.direction === 2) {
             direction = 'left'
@@ -135,6 +136,9 @@ export default class BoxGame {
         if (button.name === 'reset') {
             // Confirm('确定要重置此关卡吗？', () => this.load(this.level));
             this.load(this.level);
+        }
+        if (button.name === 'back') {
+            this.back();
         }
         if (button.name === 'solve') {
             Confirm('确定要查看答案吗？', () => this.solve());
@@ -183,7 +187,8 @@ export default class BoxGame {
         if (item.type === BlockType.FLOOR || item.type === BlockType.GOAL) {
             // 人走到空地或目标
             if (this.onmove) this.onmove([boxman], direction);
-            await this.itemMove(boxman, direction);
+            const stepInfo = await this.itemMove(boxman, direction);
+            this.historySteps.push([stepInfo]);
             this.render();
         } else if ((item.type === BlockType.BOX || item.type === BlockType.BOX_ON_GOAL)
             && (direction === 'left' && this.isEmpty(x - 2, y)
@@ -193,9 +198,10 @@ export default class BoxGame {
             // 人推箱子往前走
             if (this.onmove) this.onmove([boxman, item], direction);
             boxman.className = `boxman ${direction} walk`;
-            await this.itemMove(item, direction);
-            await this.itemMove(boxman, direction);
+            const stepInfo1 = await this.itemMove(item, direction);
+            const stepInfo2 = await this.itemMove(boxman, direction);
             boxman.className = `boxman ${direction}`;
+            this.historySteps.push([stepInfo2, stepInfo1]);
             this.render();
         } else {
             // 人走不动
@@ -215,6 +221,14 @@ export default class BoxGame {
             from = Number(item.row);
             to = direction === 'up' ? from - 1 : from + 1;
             targetItem = this.blocks.find(block => block.col === item.col && block.row === to);
+        }
+        const stepInfo = {
+            fromCol: item.col,
+            fromRow: item.row,
+            fromType: item.type,
+            toCol: targetItem.col,
+            toRow: targetItem.row,
+            toType: targetItem.type
         }
         if (targetItem.type === BlockType.FLOOR) {
             if (item.type === BlockType.MAN) {
@@ -251,9 +265,25 @@ export default class BoxGame {
             targetItem.type = BlockType.MAN
             item.type = BlockType.GOAL;
         }
-
         this.music.playStep();
+        return stepInfo;
     }
+
+    back() {
+        const steps = this.historySteps.pop();
+        console.log('back', steps)
+        if (steps) {
+            for (let i = 0; i < steps.length; i++) {
+                const stepInfo = steps[i];
+                const fromItem = this.blocks.find(block => block.col === stepInfo.fromCol && block.row === stepInfo.fromRow);
+                const toItem = this.blocks.find(block => block.col === stepInfo.toCol && block.row === stepInfo.toRow);
+                fromItem.type = stepInfo.fromType;
+                toItem.type = stepInfo.toType;
+            }
+            this.render();
+        }
+    }
+
 
     /**
      * 游戏胜利检查：是否箱子都在目标位置，即没有BOX状态，仅有BOX_ON_GOAL状态
@@ -273,6 +303,7 @@ export default class BoxGame {
         }
         console.log('load...', level);
         this.level = level;
+        this.historySteps = [];
         this.stage = StageMgmt.getStateData(level);
         this.stage.adjustToArea(Config.MAX_COL - 4, Config.MAX_ROW)
         this.blocks = this.stage.blocks

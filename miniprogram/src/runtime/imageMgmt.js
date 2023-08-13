@@ -12,6 +12,7 @@ const imgSrcList = [
     'assets/reset.png',
     'assets/solve.png',
     'assets/select_stage.png',
+    'assets/goback.png',
 ];
 
 const imageList = imgSrcList.map(src => {
