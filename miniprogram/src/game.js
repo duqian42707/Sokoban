@@ -325,7 +325,7 @@ export default class BoxGame {
         for (let i = 0; i < steps.length; i++) {
             const direction = steps[i];
             await this.move(direction);
-            await CommonUtils.wait(300);
+            await CommonUtils.wait(200);
         }
         if (this.onLevelComplete && this.isWin()) {
             await this.onLevelComplete();

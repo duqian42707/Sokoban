@@ -124,12 +124,14 @@ export function countNum(xsbStr) {
 export async function solveAll(stageList) {
     for (let i = 0; i < stageList.length; i++) {
         const stage = stageList[i];
-        if (stage.solve || stage.skip) {
+        if (stage.solve || stage.skip || stage.xsb.length > 90) {
             continue;
         }
         const blocks = xsbToBlocks(stage.xsb);
+        console.log('solving:' + stage.level);
         const steps = await solve(blocks);
         console.log('solved:' + stage.level);
+        console.log('export const DATA_LIST = ' + JSON.stringify(stageList));
         stageList[i].solve = steps;
     }
     return stageList;

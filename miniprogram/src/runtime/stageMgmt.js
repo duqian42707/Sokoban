@@ -47,8 +47,10 @@ export class StageMgmt {
             const bNum1 = (bNums['.'] || 0) + (bNums['+'] || 0) + (bNums['*'] || 0);
             const aNum2 = aNums['#'] / (aNums['-'] || 1000);
             const bNum2 = bNums['#'] / (bNums['-'] || 1000);
-            if (stageA.solve.length !== stageB.solve.length) {
-                return stageA.solve.length - stageB.solve.length
+            const solveA = stageA.solve || [];
+            const solveB = stageB.solve || [];
+            if (solveA.length !== solveB.length) {
+                return solveA.length - solveB.length
             }
             if (aNum1 !== bNum1) {
                 return aNum1 - bNum1;

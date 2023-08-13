@@ -16,6 +16,7 @@ export class Stage {
         this.maxX = maxXY.maxX;
         this.maxY = maxXY.maxY;
 
+        // todo 数据应该预处理好，否则答案对不上
         this.autoDeleteRowCols();
         this.autoTransposition();
     }
