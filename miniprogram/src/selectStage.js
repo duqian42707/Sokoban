@@ -19,8 +19,9 @@ export default class SelectStage {
         this.bg = new BackGround();
         this.home = new Home();
         this.stageList = [];
+        this.lastOffsetY = 0;
         this.offsetY = 0;
-        this.gesture = new Gesture({onTap: this.enterStage, onSwipe: this.swipe});
+        this.gesture = new Gesture({onTap: this.enterStage, onSwipe: this.swipe, onPan: this.pan});
         this.init();
     }
 
@@ -34,7 +35,30 @@ export default class SelectStage {
         }
     }
 
+    pan = async (evt) => {
+        if (evt.direction === 8 || evt.direction === 16) {
+            const firstStageBlock = this.stageList[0];
+            const lastStageBlock = this.stageList[this.stageList.length - 1];
+            if (firstStageBlock.y + this.lastOffsetY + evt.deltaY > MARGIN_TOP + 10) {
+                this.lastOffsetY = 0;
+                return;
+            }
+            if (lastStageBlock.y + this.lastOffsetY + evt.deltaY < canvas.height - MARGIN_BOTTOM - MARGIN_TOP + 20) {
+                this.lastOffsetY = canvas.height - MARGIN_BOTTOM - lastStageBlock.y - 20;
+                return;
+            }
+
+            this.offsetY = this.lastOffsetY + evt.deltaY;
+            window.requestAnimationFrame(this.swipeAnimate);
+            if (evt.isFinal) {
+                console.log('pan', evt)
+                this.lastOffsetY = this.offsetY;
+            }
+        }
+    }
+
     swipe = async (evt) => {
+        // console.log('swipe', evt)
         if (evt.direction === 8) {
             // up
             this.offsetY = -100;
@@ -51,16 +75,13 @@ export default class SelectStage {
 
     swipeAnimate = () => {
         this.stageList.forEach(stageBlock => {
-            stageBlock.y += this.offsetY / 10
+            stageBlock.offsetY = this.offsetY
         })
         context.save();
         this.bg.render(context)
         this.renderMainSection(context);
         context.restore();
         this.process += 1;
-        if (this.process < 10) {
-            window.requestAnimationFrame(this.swipeAnimate);
-        }
     }
 
     async init() {

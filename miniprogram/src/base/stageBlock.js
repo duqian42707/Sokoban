@@ -7,6 +7,7 @@ export class StageBlock extends PureColorSprite {
         this.level = level;
         this.pass = pass;
     }
+
     drawToCanvas(ctx) {
         super.drawToCanvas(ctx);
         this.drawTextToCanvas(ctx);
@@ -24,7 +25,7 @@ export class StageBlock extends PureColorSprite {
         }
         const fix = ctx.measureText(text).actualBoundingBoxAscent + ctx.measureText(text).actualBoundingBoxDescent;
         x = this.x + this.width / 2;
-        y = this.y + this.width / 2 + fix / 2
+        y = this.y + this.width / 2 + fix / 2 + this.offsetY
 
         ctx.fillStyle = '#fff'
         ctx.textAlign = 'center'

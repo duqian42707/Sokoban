@@ -13,6 +13,8 @@ export default class PureColorSprite {
         this.x = x
         this.y = y
 
+        this.offsetY = 0;
+
         this.radius = radius
 
         this.visible = true
@@ -25,16 +27,16 @@ export default class PureColorSprite {
         if (!this.visible) {
             return;
         }
-        ContextUtils.fillRoundRect(ctx, this.x, this.y, this.width, this.height, this.radius, this.color)
+        ContextUtils.fillRoundRect(ctx, this.x, this.y + this.offsetY, this.width, this.height, this.radius, this.color)
     }
 
     getButtonTapArea() {
         const delta = 20
         return {
             startX: this.x - delta,
-            startY: this.y - delta,
+            startY: this.y + this.offsetY - delta,
             endX: this.x + this.width + delta,
-            endY: this.y + this.height + delta
+            endY: this.y + this.offsetY + this.height + delta
         }
     }
 
