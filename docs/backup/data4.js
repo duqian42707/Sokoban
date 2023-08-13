@@ -1,4 +1,4 @@
-export const DATA_LIST = [{
+export const DATA_LIST4 = [{
     "level": 1,
     "xsb": "--###---\n--#.#---\n--#-####\n###$-$.#\n#.-$@###\n####$#--\n---#.#--\n---###--\n"
 }, {

@@ -121,13 +121,16 @@ export function countNum(xsbStr) {
 }
 
 
-
-export function solveAll(dataList) {
-    for (let i = 0; i < dataList.length; i++) {
-        const str = dataList[i];
-        const blocks = xsbToBlocks(str);
-        solve(blocks).then(steps => {
-            console.log('solved ' + (i + 1), steps)
-        })
+export async function solveAll(stageList) {
+    for (let i = 0; i < stageList.length; i++) {
+        const stage = stageList[i];
+        if (stage.solve || stage.skip) {
+            continue;
+        }
+        const blocks = xsbToBlocks(stage.xsb);
+        const steps = await solve(blocks);
+        console.log('solved:' + stage.level);
+        stageList[i].solve = steps;
     }
+    return stageList;
 }

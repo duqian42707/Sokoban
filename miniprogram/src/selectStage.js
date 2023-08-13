@@ -6,6 +6,8 @@ import DataStore from "./base/dataStore";
 import {DATA_LIST} from "./data/data1";
 import Home from "./home";
 import ContextUtils from "./utils/contextUtils";
+import {DATA6} from "./data/data6";
+import {solveAll} from "./utils/blockUtils";
 
 const MARGIN_LEFT = 20;
 const MARGIN_TOP = 110;
@@ -23,6 +25,7 @@ export default class SelectStage {
         this.offsetY = 0;
         this.gesture = new Gesture({onTap: this.enterStage, onSwipe: this.swipe, onPan: this.pan});
         this.init();
+        this.testa();
     }
 
 
@@ -129,6 +132,11 @@ export default class SelectStage {
             const stageBlock = this.stageList[i];
             stageBlock.drawToCanvas(ctx);
         }
+    }
+
+    async testa() {
+        const solvedList = await solveAll(DATA6.slice(0, 30))
+        console.log(JSON.stringify(solvedList));
     }
 
 
