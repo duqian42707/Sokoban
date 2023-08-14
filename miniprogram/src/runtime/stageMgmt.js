@@ -36,7 +36,7 @@ export class StageMgmt {
      *
      * @returns {any[]}
      */
-    static sortByDifficult(dataList) {
+    static sortByDifficult(dataList, startLevel = 1) {
         const data = [...dataList];
         data.sort((stageA, stageB) => {
             const a = stageA.xsb;
@@ -61,7 +61,7 @@ export class StageMgmt {
             return a.length - b.length;
         })
         for (let i = 0; i < data.length; i++) {
-            data[i].level = i + 1;
+            data[i].level = startLevel + i;
         }
         return data;
     }

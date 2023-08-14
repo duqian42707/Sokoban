@@ -5,9 +5,11 @@ import {Gesture} from "./gestureListener";
 import DataStore from "./base/dataStore";
 import {DATA_LIST} from "./data/data1";
 import {DATA_LIST as DATA_LIST2} from "./data/data2";
+import {DATA_LIST as DIFFICULT2} from "./data/difficult2";
 import Home from "./home";
 import ContextUtils from "./utils/contextUtils";
 import {StageMgmt} from "./runtime/stageMgmt";
+import {solveAll} from "./utils/blockUtils";
 
 const MARGIN_LEFT = 20;
 const MARGIN_TOP = 110;
@@ -25,7 +27,7 @@ export default class SelectStage {
         this.offsetY = 0;
         this.gesture = new Gesture({onTap: this.enterStage, onSwipe: this.swipe, onPan: this.pan});
         this.init();
-        // this.testa();
+        this.testa();
     }
 
 
@@ -135,30 +137,29 @@ export default class SelectStage {
     }
 
     async testa() {
-        const group = {};
-        let list = [...DATA_LIST, ...DATA_LIST2];
+        // solveAll(DIFFICULT2);
+
+    }
+
+    async test1() {
+        const groups = []
+        let list = DATA_LIST2;
         for (let i = 0; i < list.length; i++) {
             const data = list[i];
             const solve = JSON.stringify(data.solve);
-            if (group[solve] == null) {
-                group[solve] = [];
-            }
-            group[solve].push(data);
-        }
-
-        for (const groupKey in group) {
-            if (group[groupKey].length > 1) {
-                console.log('del..')
-                for (let i = 1; i < group[groupKey].length; i++) {
-                    group[groupKey][i]['del'] = true;
+            const data0 = DATA_LIST.find(x => JSON.stringify(x.solve) === solve);
+            if (data0) {
+                data['del'] = true;
+                if (data0.xsb !== data.xsb.trim()) {
+                    groups.push([data0.xsb, data.xsb.trim()])
                 }
             }
         }
-
+        console.log(list.length);
         list = list.filter(x => !(x.del === true))
-        list = StageMgmt.sortByDifficult(list);
+        console.log(groups);
+        list = StageMgmt.sortByDifficult(list, 87);
         console.log('export const DATA_LIST = ' + JSON.stringify(list));
-
     }
 
 

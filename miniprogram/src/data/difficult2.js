@@ -24,7 +24,8 @@ export const DATA_LIST = [{
     "level": 8
 }, {
     "xsb": "-#########\n-#---##--#\n-#----$--#\n-##-###--#\n-##-#-..-#\n###-$--#.#\n#-$$#-##.#\n#--@-----#\n##########\n",
-    "level": 9
+    "level": 9,
+    "solve": ["up", "up", "right", "left", "down", "down", "right", "right", "right", "right", "right", "up", "up", "up", "left", "left", "left", "down", "right", "up", "right", "up", "up", "left", "left", "left", "up", "left", "left", "down", "right", "right", "right", "right", "left", "left", "left", "down", "down", "down", "right", "right", "right", "up", "right", "right", "down", "down", "down", "left", "left", "left", "left", "left", "up", "up", "up", "up", "down", "down", "down", "down", "right", "right", "up", "down", "right", "right", "right", "up", "up", "up", "left", "left", "down", "left", "left", "right", "right", "up", "right", "right", "up", "up", "up", "left", "down", "down", "up", "left", "left", "left", "up", "left", "left", "down", "right", "right", "right", "right", "left", "left", "left", "down", "down", "down", "right", "right", "down", "down", "left", "left", "up", "up", "up", "up", "down", "down", "right", "right", "down", "down", "right", "right", "right", "up", "up", "up", "left", "right", "up", "up", "up", "left", "down", "left", "left", "left", "up", "left", "left", "down", "right", "right", "right", "right", "right", "down", "right", "down", "down", "down", "down", "left", "left", "left", "left", "left", "left", "left", "up", "right", "down", "right", "up", "up", "up", "up", "down", "down", "right", "right", "down", "down", "right", "right", "right", "up", "up", "up", "up", "left", "up", "up", "right", "down", "down", "down", "down", "up", "up", "left", "up", "left", "left", "left", "up", "left", "left", "down", "right", "right", "right", "right", "right", "up", "right", "down", "down", "down"]
 }, {
     "xsb": "---#######---\n####-----#---\n#---.###-#---\n#-#-#----##--\n#-#-$-$#.-#--\n#-#--*--#-#--\n#-.#$-$-#-#--\n##----#-#-###\n-#-###.----@#\n-#-----##---#\n-############\n",
     "level": 10,
@@ -62,7 +63,8 @@ export const DATA_LIST = [{
     "skip": true
 }, {
     "xsb": "####----\n#@-###--\n#----#--\n#-*$$###\n##-*--#-\n##-.#-#-\n##-*--#-\n#-.-*##-\n#----#--\n######--\n--#-----\n",
-    "level": 20
+    "level": 20,
+    "solve": ["right", "down", "down", "down", "right", "down", "down", "left", "down", "down", "right", "up", "up", "left", "up", "up", "up", "left", "up", "up", "right", "down", "down", "down", "down", "down", "right", "right", "right", "up", "up", "left", "left", "down", "left", "up", "up", "left", "up", "up", "right", "down", "right", "down", "down", "right", "right", "down", "down", "left", "left", "up", "left", "up", "up", "right", "up", "right", "down", "left", "left", "left", "up", "right", "down", "down", "down", "right", "down", "down", "down", "left", "left", "up", "right", "up", "up", "up", "up", "right", "down", "left", "down", "down", "right", "right", "right", "up", "up", "left", "right", "down", "down", "left", "left", "left", "down", "down", "right", "up", "left", "up", "up", "up", "up", "left", "up", "up", "right", "down", "down", "right", "right", "up", "left", "down", "left", "down", "down", "down", "up", "up", "up", "left", "up", "up", "right", "down"]
 }, {
     "xsb": "#########--\n#---#---#--\n#---#---#--\n#--$--$-#--\n#-#-#---#--\n#-$-#$#####\n#-$-......#\n###$#######\n--#@#------\n--###------\n",
     "level": 21
@@ -115,19 +117,22 @@ export const DATA_LIST = [{
     "skip": true
 }, {
     "xsb": "-####----\n-#--#----\n##-.###--\n#--*$-#--\n#*-.--###\n#-$.$$$-#\n#--.----#\n###.#####\n--#@#----\n--###----\n",
-    "level": 35
+    "level": 35,
+    "solve": ["up", "up", "left", "left", "up", "right", "up", "right", "up", "down", "right", "right", "up", "left", "down", "left", "down", "down", "right", "right", "up", "left", "down", "left", "up", "right", "right", "down", "right", "right", "up", "left", "left", "left", "up", "up", "right", "down", "down", "right", "down", "left", "left"]
 }, {
     "xsb": "-------#####\n--######---#\n###----.-$-#\n#-$--#$.#$##\n#--#--@.#--#\n##-####.---#\n-#-$--#*####\n-#-##-#.--#-\n-#-----.#-#-\n-###$-----#-\n---#--#####-\n---####-----\n",
     "level": 36
 }, {
     "xsb": "--####-----\n###--#####-\n#--.$--.-##\n#-$*@#$*--#\n##-.$*-.--#\n-###-#--###\n---#---##--\n---#####---\n",
-    "level": 37
+    "level": 37,
+    "solve": ["down", "left", "left", "up", "right", "up", "right", "right", "right", "down", "right", "down", "right", "right", "up", "left", "up", "left", "left", "down", "right", "up", "right", "down", "left", "down", "down", "left", "up", "left", "left", "up", "left", "left", "down", "right", "right", "right", "right", "down", "down", "left", "left", "up", "down", "right", "right", "up", "up", "left", "left", "up", "left", "up", "up", "right", "down", "right", "right", "down", "down", "left", "left", "up", "left", "up", "right", "left", "down", "left", "left", "up", "right", "down", "right", "right", "up", "up", "left", "down", "right", "down", "down", "right", "right", "up", "up", "left", "left", "right", "right", "down", "right", "right", "up", "left", "left", "down", "down", "left", "left", "down", "down", "right", "right", "up", "right", "up", "left", "up", "up", "right", "right", "down", "right", "down", "left", "up", "up", "left", "left", "down", "down", "down", "down", "left", "left", "up", "up", "up", "up", "right", "right"]
 }, {
     "xsb": "---#####---\n-###---###-\n##--@$-$-#-\n#--##-##-##\n#-$.#.$---#\n#-#.#*#---#\n#-$...--###\n###$#-###--\n--#---#----\n--#####----\n",
     "level": 38
 }, {
     "xsb": "##########\n#@-*.##--#\n#-$---$--#\n###*..#--#\n--#--$--##\n--#-.#.-#-\n--#-$-$-#-\n--####--#-\n-----####-\n",
-    "level": 39
+    "level": 39,
+    "solve": ["down", "right", "right", "down", "right", "down", "down", "left", "down", "right", "up", "up", "right", "right", "down", "right", "down", "down", "left", "up", "up", "right", "up", "up", "right", "up", "up", "left", "down", "down", "down", "left", "left", "up", "up", "right", "left", "down", "left", "left", "up", "right", "up", "left", "right", "down", "right", "down", "down", "right", "right", "up", "right", "up", "up", "left", "down", "left", "left", "down", "down", "right", "right", "up", "right", "up", "left", "down", "down", "down", "left", "up", "left", "up", "left", "left", "up", "up", "right", "down", "left", "down", "down", "right", "right", "right", "down", "right", "up", "up", "right", "up", "up", "left", "down", "left", "left", "down", "down", "right", "right", "up", "right", "up", "left", "down", "down", "left", "down", "down", "down", "right", "up", "up", "left", "up", "left", "left", "down", "down", "right", "left", "up", "up", "right", "right", "down", "right", "down", "down", "left", "up", "left", "left", "up", "up", "left", "up", "right", "left", "up", "up", "right", "down", "right", "down", "up", "left", "left", "down", "down", "right", "up", "down", "down", "down", "right", "right", "right", "up", "up", "left", "left", "up", "left", "down", "left", "up", "up", "up", "right", "down", "right", "down", "down", "right", "right", "up", "right", "up", "up", "left", "down", "left", "left", "down", "down", "left", "left", "up", "right", "left", "up", "up", "right", "down", "left", "left", "left", "up", "right", "right", "down", "down", "down", "right", "right", "right", "right", "up", "right", "up", "left", "left", "left", "left", "right", "right", "right", "down", "down", "left", "left", "left", "left", "up", "up", "right", "right", "right", "right", "down", "down", "down", "down", "left", "left", "left", "left", "up", "up"]
 }, {
     "xsb": "--#####--\n###---###\n#--$..$-#\n#-#-##--#\n#-#-##@##\n#--$..$#-\n###-#$-#-\n--#-.-.#-\n--#$#-.#-\n--#--$-#-\n--###--#-\n----####-\n",
     "level": 40,
@@ -147,7 +152,8 @@ export const DATA_LIST = [{
     "level": 44
 }, {
     "xsb": "#####-----\n#---####--\n#-#$---###\n#-#.*$*--#\n#-#-.*-#-#\n#--.-$.#@#\n###--$-#-#\n--####---#\n-----#####\n",
-    "level": 45
+    "level": 45,
+    "solve": ["down", "down", "left", "left", "up", "up", "up", "left", "up", "right", "down", "down", "down", "left", "up", "left", "left", "left", "left", "up", "up", "up", "up", "right", "right", "down", "down", "down", "up", "up", "up", "left", "left", "down", "down", "down", "down", "right", "right", "right", "right", "up", "right", "up", "up", "left", "left", "right", "right", "down", "down", "left", "down", "left", "left", "left", "left", "up", "up", "up", "up", "right", "right", "down", "down", "down", "up", "up", "right", "right", "right", "down", "down", "left", "left", "down", "left", "up", "right", "right", "right", "up", "up", "left", "left", "down", "down", "right", "right", "up", "left", "down", "down", "down", "right", "down", "right", "right", "up", "up", "up", "up", "left", "left", "up", "left", "down", "down", "right", "up", "right", "right", "down", "down", "down", "down", "left", "left", "up", "up", "up", "down", "down", "down", "right", "right", "up", "up", "up", "up", "left", "left", "down", "left", "left", "left", "down", "down", "right", "right", "left", "left", "up", "up", "right", "right", "right", "up", "up", "left", "left", "left", "up", "left", "left", "down", "down", "down", "down", "right", "left", "up", "up", "up", "up", "right", "right", "down", "right", "right", "down", "right", "right", "right", "down", "down", "down", "down", "left", "left", "up", "up", "up", "down", "down", "left", "left", "up", "right"]
 }, {
     "xsb": "###########\n#@.--##--.#\n#.---##---#\n##--------#\n#.#$#$#$#$#\n#-$-------#\n#--$-#-#--#\n#.---.-$-.#\n###########\n",
     "level": 46
@@ -193,17 +199,20 @@ export const DATA_LIST = [{
     "level": 58
 }, {
     "xsb": "-----#####\n--####---#\n###-...$-#\n#-.$#-.$-#\n#--$-#---#\n#--$-**$##\n####-.--#-\n---###@-#-\n-----####-\n",
-    "level": 59
+    "level": 59,
+    "solve": ["up", "up", "up", "right", "down", "left", "down", "left", "left", "up", "up", "left", "right", "down", "right", "down", "right", "up", "right", "up", "right", "up", "up", "up", "left", "left", "down", "left", "left", "left", "down", "left", "left", "down", "down", "right", "right", "right", "down", "right", "right", "up", "right", "up", "right", "up", "up", "left", "left", "right", "right", "down", "down", "left", "up", "right", "up", "up", "left", "left", "down", "left", "down", "right", "up", "up", "right", "right", "down", "left", "left", "right", "right", "down", "down", "left", "up", "down", "down", "left", "up", "down", "down", "left", "left", "up", "right", "left", "left", "left", "left", "up", "up", "right", "right", "down", "up", "left", "left", "down", "down", "right", "up", "down", "right", "right", "down", "right", "right", "down", "right", "up", "up", "up", "left", "down", "right", "down", "left", "right", "up", "up", "right", "up", "up", "up", "left", "left", "down", "down", "down", "right", "right", "up", "left", "right", "up", "left"]
 }, {
     "xsb": "-----####-\n-#####--#-\n##-$--$-#-\n#@$.#.*-##\n#-$.$-.--#\n##$.*#.--#\n-#------##\n-#--#####-\n-####-----\n",
-    "level": 60
+    "level": 60,
+    "skip": true
 }, {
     "xsb": "-#######-\n##--#--##\n#-----$-#\n#-**-**@#\n#-*-#-*-#\n##--.--##\n-#--.$##-\n-##---#--\n--#####--\n",
     "level": 61,
     "skip": true
 }, {
     "xsb": "-####-----\n-#--######\n-#---$@$-#\n-#-**##.-#\n##$.$--.-#\n#--.#-.*##\n#----$--#-\n######--#-\n-----####-\n",
-    "level": 62
+    "level": 62,
+    "solve": ["left", "left", "left", "down", "down", "right", "right", "down", "right", "down", "left", "right", "right", "up", "up", "right", "up", "up", "left", "down", "down", "down", "left", "left", "up", "right", "left", "left", "left", "up", "up", "right", "down", "left", "down", "right", "right", "down", "down", "left", "left", "up", "left", "left", "down", "right", "right", "up", "up", "right", "up", "up", "left", "down", "left", "down", "down", "right", "up", "left", "up", "right", "up", "up", "left", "down", "down", "right", "down", "right", "right", "down", "right", "right", "up", "left", "left", "right", "right", "right", "up", "up", "left", "down", "right", "down", "left", "down", "left", "down", "down", "right", "up", "up", "up", "right", "up", "up", "left", "left", "left", "left", "left", "down", "down", "down", "down", "right", "right", "up", "right", "right", "down", "down", "left", "up", "left", "left", "left", "up", "left", "left", "down", "right", "right", "up", "up", "up", "left", "down", "right", "up", "up", "up", "left", "down", "down", "right", "down", "down", "down", "left", "left", "up", "right", "down", "right", "up", "up", "up", "left", "up", "up", "right", "down", "left", "down", "down", "right", "down", "down", "left", "left", "up", "right", "down", "right", "right", "right", "right", "down", "right", "up", "left", "left", "up", "up", "left", "right", "right"]
 }, {
     "xsb": "-#####------\n-#---#####--\n-#-----$@#--\n-##-##.#*###\n###-#-$--$-#\n#-$-.$.-.#-#\n#---$-##$#-#\n###.#.--.--#\n--#---######\n--#####-----\n",
     "level": 63
@@ -224,7 +233,8 @@ export const DATA_LIST = [{
     "skip": true
 }, {
     "xsb": "-#####----\n##---#####\n#--#-$@$-#\n#-#..#*--#\n#--.---.-#\n##-$.#.*-#\n-#-$-$$#-#\n-#####---#\n-----#####\n",
-    "level": 68
+    "level": 68,
+    "solve": ["down", "right", "down", "left", "left", "left", "up", "up", "up", "left", "left", "down", "left", "down", "down", "right", "right", "right", "right", "right", "up", "right", "right", "down", "down", "down", "down", "left", "left", "up", "up", "down", "down", "right", "right", "up", "up", "left", "up", "left", "left", "left", "up", "up", "up", "left", "left", "down", "left", "down", "down", "right", "right", "right", "right", "right", "up", "up", "left", "right", "down", "down", "down", "right", "right", "down", "down", "left", "left", "up", "up", "up", "left", "left", "down", "down", "right", "left", "up", "up", "left", "left", "down", "down", "right", "right", "up", "up", "right", "right", "down", "right", "right", "up", "left", "right", "up", "up", "left", "down", "down", "left", "left", "left", "down", "left", "up", "left", "left", "up", "up", "right", "up", "right", "right", "down", "right", "right", "down", "up", "left", "left", "down", "down", "right", "right", "up", "right", "right", "up", "left", "left", "left", "right", "right", "right", "down", "down", "down", "down", "down", "left", "left", "up", "up", "up", "left", "left", "left", "down", "down", "right", "right", "left", "left", "up", "up", "left", "left", "up", "up", "right", "up", "right", "right", "down", "right", "right", "right", "right", "down", "down", "down", "down", "down", "left", "left", "up", "left", "left", "left", "left", "up", "right", "down", "right", "right", "right", "down", "right", "right", "up", "up", "up", "up", "left", "up", "left", "left", "left", "up", "left", "left", "down", "left", "down", "down", "right"]
 }, {
     "xsb": "--#####--\n-##-@-##-\n-#-.$.-#-\n-#-*-*-#-\n-#$-#.*#-\n##--#--##\n#-$.$.$-#\n#---#---#\n#########\n",
     "level": 69,
@@ -235,7 +245,8 @@ export const DATA_LIST = [{
     "skip": true
 }, {
     "xsb": "##########\n#---#----#\n#-#$.-.#-#\n#@#.-*-#-#\n#-#-*-.#-#\n#-#*$*$#-#\n#-$------#\n####--####\n---####---\n",
-    "level": 71
+    "level": 71,
+    "solve": ["down", "down", "down", "right", "right", "right", "right", "up", "down", "left", "left", "up", "right", "up", "up", "left", "down", "right", "down", "down", "right", "right", "up", "up", "up", "left", "right", "down", "down", "down", "left", "left", "up", "up", "right", "up", "up", "up", "right", "right", "right", "down", "down", "down", "down", "down", "left", "left", "left", "up", "up", "up", "right", "down", "left", "left", "left", "up", "right", "down", "right", "down", "down", "down", "left", "up", "left", "up", "right", "up", "up", "left", "down", "right", "right", "right", "up", "left", "down", "left", "down", "down", "right", "right", "right", "right", "up", "up", "up", "up", "up", "left", "left", "left", "down", "down", "up", "up", "right", "right", "right", "down", "down", "down", "down", "down", "left", "left", "left", "left", "left", "left", "left", "up", "up", "up", "up", "up", "right", "right", "down", "right", "left", "up", "left", "left", "down", "down", "down", "down", "down", "right", "right", "right", "up", "up", "up", "right", "right", "down", "left", "down", "left", "down", "down", "right", "up", "right", "up", "down", "right", "right", "up", "up", "up", "up", "up", "left", "left", "left", "down"]
 }, {
     "xsb": "----#####\n--###---#\n###..$.-#\n#-$-$.$##\n#-#$.-*-#\n#--.-*$-#\n##---#-@#\n-########\n",
     "level": 72,
@@ -267,10 +278,12 @@ export const DATA_LIST = [{
     "level": 80
 }, {
     "xsb": "#####----\n#---#####\n#-#-$-$-#\n#-$$.-*@#\n#-#--**-#\n#-###-*##\n#--#-.*-#\n##--.-.-#\n-##-----#\n--#######\n",
-    "level": 81
+    "level": 81,
+    "skip": true
 }, {
     "xsb": "-##########\n###--#----#\n#---*.*-#-#\n#-*-*@*-#-#\n#-#-.*.-#-#\n#--$-$-$--#\n##--#######\n######-----\n",
-    "level": 82
+    "level": 82,
+    "skip": true
 }, {
     "xsb": "#######--\n#--.$-###\n#-.$.$--#\n#*$.$.@-#\n#-.$.$-##\n#--.$--#-\n########-\n",
     "level": 83,
