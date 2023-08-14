@@ -3,7 +3,7 @@ POST http://localhost:8080/api/login
 Content-Type: application/json
 
 {
-  "code": "123"
+  "text": "UJ+5xjF/xjoV7yea1jsWPnj+GZcJlY4dWCtTRdMD4bT7uVxFOigNO5Ngl7WREy7XMdogv43vyHYlKsdRVpDhH2XjKq+Ya8vxXJMf8utHkT85AdYCUCzTOSMiWrkbkXAsWy9i/xT1brNg9zDEKky6aG3jbevTLziUc//ekH6G1mc="
 }
 
 ###

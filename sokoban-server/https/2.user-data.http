@@ -10,13 +10,7 @@ Content-Type: application/json
 Authorization: bearer {{token}}
 
 {
-  "completeLevels": [
-    1,
-    2,
-    3,
-    21,
-    22
-  ]
+  "text": "a/kE56QbC6kN/PENPGhlNxTfA2vG1n5DPlo7us1+IfEi95NhOHWutAz7ozWVn6Irj2UfVSg/Z5zNWgC7N+e1WWuXeGIPLknva0DamNG5DJ4rc/Mj4r5lJB9Sc16Xcr6BDGowCZMjiB/Wug32nvKV3DCc5BeTUGKLUXIpLWTO+Rg="
 }
 
 ###

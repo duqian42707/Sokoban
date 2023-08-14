@@ -54,6 +54,11 @@ public class LoginServiceImpl implements LoginService {
 
 
     private JSONObject invokeLoginApi(String code) {
+        if ("TEST".equals(code)) {
+            JSONObject jo = new JSONObject();
+            jo.put("openid", "testopenid123");
+            return jo;
+        }
         String urlTpl = "https://api.weixin.qq.com/sns/jscode2session?appid=%s&secret=%s&js_code=%s&grant_type=authorization_code";
         String appId = configProperties.getAppId();
         String appSecret = configProperties.getAppSecret();

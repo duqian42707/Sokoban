@@ -15,7 +15,7 @@ import java.util.Optional;
  * @author duqian
  * @date 2023/5/31
  */
-public class RequestHandlerInterceptor implements HandlerInterceptor {
+public class TokenCheckHandlerInterceptor implements HandlerInterceptor {
 
     /**
      * 不需要验证token的请求前缀
