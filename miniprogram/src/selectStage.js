@@ -27,8 +27,8 @@ export default class SelectStage {
         this.lastOffsetY = 0;
         this.offsetY = 0;
         this.gesture = new Gesture({onTap: this.enterStage, onSwipe: this.swipe, onPan: this.pan});
-        // this.init();
-        this.testa();
+        this.init();
+        // this.testa();
     }
 
 

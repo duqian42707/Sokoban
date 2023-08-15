@@ -1,6 +1,9 @@
 import SelectStage from "./selectStage";
 import ImageMgmt from "./runtime/imageMgmt";
 import BoxGame from "./game";
+import RequestUtils from "./utils/requestUtils";
+import DataStore from "./base/dataStore";
+import UserDataUtils from "./utils/userDataUtils";
 
 let instance
 
@@ -18,6 +21,9 @@ export default class Home {
 
     async init() {
         await this.loadImages();
+        if (wx) {
+            await UserDataUtils.loadServerData();
+        }
         this.toSelectStage();
     }
 

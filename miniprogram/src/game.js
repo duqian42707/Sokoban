@@ -10,6 +10,7 @@ import DataStore from "./base/dataStore";
 import CommonUtils from "./utils/commonUtils";
 import {StageMgmt} from "./runtime/stageMgmt";
 import Home from "./home";
+import UserDataUtils from "./utils/userDataUtils";
 
 const MARGIN_LEFT = 25;
 const MARGIN_TOP = 135;
@@ -41,6 +42,10 @@ export default class BoxGame {
             this.gesture.clearGestureListener();
             this.keyboard.clearKeyboardListener();
             DataStore.putCompleteLevel(this.level);
+            if (wx) {
+                const completeLevels = DataStore.getCompleteLevels();
+                await UserDataUtils.uploadUserData({completeLevels})
+            }
             await CommonUtils.wait(300);
             await this.load(this.level + 1);
         };

@@ -20,6 +20,7 @@
     "webpack-dev-server": "^4.15.1"
   },
   "dependencies": {
+    "axios": "^1.4.0",
     "hammerjs": "^2.0.8"
   }
 }

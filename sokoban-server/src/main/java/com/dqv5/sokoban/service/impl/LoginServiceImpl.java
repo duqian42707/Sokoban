@@ -7,6 +7,7 @@ import com.dqv5.sokoban.repository.BaseUserRepository;
 import com.dqv5.sokoban.service.LoginService;
 import com.dqv5.sokoban.utils.JwtTokenUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -64,8 +65,10 @@ public class LoginServiceImpl implements LoginService {
         String appSecret = configProperties.getAppSecret();
         String url = String.format(urlTpl, appId, appSecret, code);
         String resp = restTemplate.getForObject(url, String.class);
+        log.debug("---->登录请求结果：{}", resp);
         JSONObject jsonObject = JSONObject.parseObject(resp);
-        if (jsonObject.getInteger("errcode") == 0) {
+        String openid = jsonObject.getString("openid");
+        if (StringUtils.isNotBlank(openid)) {
             return jsonObject;
         }
         throw new RuntimeException("请求登录接口异常: " + resp);

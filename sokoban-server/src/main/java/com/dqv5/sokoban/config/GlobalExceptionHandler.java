@@ -22,7 +22,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(value = RuntimeException.class)
     public ResponseEntity<?> exceptionHandler(RuntimeException ex) {
-        log.error("出现异常: {}", ex.getMessage());
+        log.error("出现异常", ex);
         return RestReturn.build(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage(), ex);
     }
 

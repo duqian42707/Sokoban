@@ -31,7 +31,10 @@ module.exports = function (env = {}) {
             },
             compress: true,
             port: 9000,
-            hot: true
+            hot: true,
+            proxy: {
+                '/api': 'http://localhost:8080',
+            },
             // ...
         },
 
