@@ -1,7 +1,7 @@
 package com.dqv5.sokoban.help.TEST;
 
 import com.dqv5.sokoban.help.COMMAND.FindCommand;
-import com.dqv5.sokoban.help.LOGIC.StartLogic;
+import com.dqv5.sokoban.help.LOGIC.DataStatic;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +10,17 @@ public class Test {
     public static void main(String[] args) {
         //测试寻找地图
         List<Integer> pathValues = new ArrayList<>(50);
-        new FindCommand().findPath(new StartLogic().findMap(4), pathValues);
+        char[][] map1 = {
+                {'#', '#', '#', '#', '#', '#'},
+                {'#', '.', '-', '-', '-', '#'},
+                {'#', '-', '-', '$', '-', '#'},
+                {'#', '-', '$', '@', '-', '#'},
+                {'#', '-', '-', '-', '.', '#'},
+                {'#', '#', '#', '#', '#', '#'}
+        };
+        DataStatic.chang = 6;
+        DataStatic.kuan = 6;
+        new FindCommand().findPath(map1, pathValues);
         //测试排序
        /* ArrayList<MyPoint> boxPoints=new ArrayList<>(50);
         boxPoints.add(new MyPoint(1,2));

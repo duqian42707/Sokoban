@@ -1,6 +1,5 @@
 package com.dqv5.sokoban.help.LOGIC;
 
-import com.dqv5.sokoban.help.GUI.PeopleLabel;
 import com.dqv5.sokoban.help.STRUCT.MyPoint;
 import com.dqv5.sokoban.help.STRUCT.SimpleSitu;
 
@@ -12,7 +11,6 @@ public class DataStatic {
     public static int picSize = 35, picNum = 20, changdu = picSize * picNum;
     public static int zuo, shang;
     public static JLayeredPane fenceng;
-    public static PeopleLabel peopleLabel;
     public static Map<MyPoint, JLabel> boxLabelMap = new HashMap<>(10);
 
     public static List<MyPoint> boxList = new ArrayList<>(10);
