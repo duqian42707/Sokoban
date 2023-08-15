@@ -364,8 +364,13 @@ public class SolveUtils {
 
 
     public static void main(String[] args) {
-        String xsb = "-#####\n-#--@#\n##$$##\n#---.#\n#-.--#\n###--#\n--####";
+//        String xsb = "-#####\n-#--@#\n##$$##\n#---.#\n#-.--#\n###--#\n--####";
+        String xsb = "---####----\n####--#----\n#-----####-\n#-$-#--.-##\n#--#---.--#\n##-#$$#.--#\n##----#####\n#-@-###----\n#---#------\n#####------";
+        long start = System.currentTimeMillis();
         new SolveUtils(xsbToBlocks(xsb));
+        long end = System.currentTimeMillis();
+        log.info("耗时：{}毫秒", end - start);
+
     }
 
     public static List<BlockEntity> xsbToBlocks(String xsbText) {

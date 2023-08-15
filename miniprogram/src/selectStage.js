@@ -9,7 +9,8 @@ import {DATA_LIST as DIFFICULT2} from "./data/difficult2";
 import Home from "./home";
 import ContextUtils from "./utils/contextUtils";
 import {StageMgmt} from "./runtime/stageMgmt";
-import {solveAll} from "./utils/blockUtils";
+import {solveAll, xsbToBlocks} from "./utils/blockUtils";
+import {solve} from "./solve";
 
 const MARGIN_LEFT = 20;
 const MARGIN_TOP = 110;
@@ -26,7 +27,7 @@ export default class SelectStage {
         this.lastOffsetY = 0;
         this.offsetY = 0;
         this.gesture = new Gesture({onTap: this.enterStage, onSwipe: this.swipe, onPan: this.pan});
-        this.init();
+        // this.init();
         this.testa();
     }
 
@@ -138,6 +139,11 @@ export default class SelectStage {
 
     async testa() {
         // solveAll(DIFFICULT2);
+        const blocks = xsbToBlocks(DATA_LIST[0].xsb)
+        const start = new Date().getTime()
+        await solve(blocks);
+        const end = new Date().getTime();
+        console.log("耗时：", end - start)
 
     }
 
