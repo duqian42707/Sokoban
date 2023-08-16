@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -37,15 +38,19 @@ public class LoginServiceImpl implements LoginService {
         String unionid = jsonObject.getString("unionid");
         log.debug("请求登录接口成功：openid:{},session_key:{},unionid:{}", openid, sessionKey, unionid);
 
+        Date now = new Date();
         Optional<BaseUser> opt = baseUserRepository.findByOpenid(openid);
         BaseUser baseUser;
         if (opt.isPresent()) {
             baseUser = opt.get();
+            baseUser.setLastLoginTime(now);
+            baseUser = baseUserRepository.save(baseUser);
         } else {
             baseUser = new BaseUser();
+            baseUser.setOpenid(openid);
             baseUser.setAccount(UUID.randomUUID().toString());
             baseUser.setNickName("未设置昵称");
-            baseUser.setOpenid(openid);
+            baseUser.setLastLoginTime(now);
             baseUser = baseUserRepository.save(baseUser);
         }
         String token = JwtTokenUtil.createToken(baseUser.getUserId(), baseUser.getAccount(), baseUser.getNickName(), openid);

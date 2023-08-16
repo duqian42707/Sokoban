@@ -33,6 +33,7 @@ public class BaseUser extends BaseEntity implements Serializable {
     private String email;
     private String status = "1";
     private String openid;
+    private String lastLoginIp;
     private Date lastLoginTime;
     private Date lastPasswordResetTime;
 

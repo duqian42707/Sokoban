@@ -17,7 +17,6 @@ import java.io.Serializable;
 public class UserData extends BaseEntity implements Serializable {
     @Id
     private String userId;
-    @Lob
     @Column(columnDefinition = "text")
     private String completeLevels;
 
