@@ -31,4 +31,9 @@ export class StageBlock extends PureColorSprite {
         ctx.textAlign = 'center'
         ctx.fillText(text, x, y, this.width - 10);
     }
+
+    setPosition(x, y) {
+        this.x = x;
+        this.y = y;
+    }
 }

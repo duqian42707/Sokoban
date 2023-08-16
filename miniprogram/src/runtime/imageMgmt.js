@@ -13,6 +13,8 @@ const imgSrcList = [
     'assets/solve.png',
     'assets/select_stage.png',
     'assets/goback.png',
+    'assets/prev.png',
+    'assets/next.png',
 ];
 
 const imageList = imgSrcList.map(src => {

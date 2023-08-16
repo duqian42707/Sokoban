@@ -11,10 +11,11 @@ import ContextUtils from "./utils/contextUtils";
 import {StageMgmt} from "./runtime/stageMgmt";
 import {solveAll, xsbToBlocks} from "./utils/blockUtils";
 import {solve} from "./solve";
+import {Button} from "./base/button";
 
 const MARGIN_LEFT = 20;
 const MARGIN_TOP = 110;
-const MARGIN_BOTTOM = 70;
+const MARGIN_BOTTOM = 170;
 const maxCol = 4;
 const gutter = 4;
 
@@ -23,21 +24,35 @@ export default class SelectStage {
     constructor() {
         this.bg = new BackGround();
         this.home = new Home();
+        this.pageNum = 1;
+        this.pageSize = 30;
+        this.maxPageNum = 1;
         this.stageList = [];
+        this.displayedStages = [];
+        this.buttons = [];
         this.lastOffsetY = 0;
         this.offsetY = 0;
-        this.gesture = new Gesture({onTap: this.enterStage, onSwipe: this.swipe, onPan: this.pan});
+        this.gesture = new Gesture({onTap: this.tap, onSwipe: this.swipe, onPan: this.pan});
         this.init();
         // this.testa();
     }
 
 
-    enterStage = async (evt) => {
+    tap = async (evt) => {
         const center = evt.center;
-        const button = this.stageList.find(item => item.isTapped(center.x, center.y))
-        if (button != null) {
+        const stage = this.displayedStages.find(item => item.isTapped(center.x, center.y))
+        if (stage != null) {
             this.gesture.clearGestureListener();
-            this.home.loadGame(button.level);
+            this.home.loadGame(stage.level);
+        }
+        const button = this.buttons.find(item => item.isTapped(center.x, center.y))
+        if (button != null && button.name === 'prev') {
+            this.pageNum = this.pageNum === 1 ? this.maxPageNum : (this.pageNum - 1);
+            this.render();
+        }
+        if (button != null && button.name === 'next') {
+            this.pageNum = this.pageNum === this.maxPageNum ? 1 : (this.pageNum + 1);
+            this.render();
         }
     }
 
@@ -91,14 +106,16 @@ export default class SelectStage {
     }
 
     async init() {
-        // 关卡
+        // 所有关卡
         this.initStageList();
+        // 本页关卡
+        this.initDisplayedStages();
         // 手势监听
         this.gesture.addGestureListener();
-        // 背景
-        this.bg.render(context)
-        // 关卡列表区域
-        this.renderMainSection(context);
+        // 翻页按钮
+        this.initButtons();
+        // 渲染图像
+        this.render();
     }
 
     initStageList() {
@@ -114,6 +131,22 @@ export default class SelectStage {
             const stageBlock = new StageBlock(i + 1, pass, (blockWidth - gutter * 2), x, y);
             this.stageList.push(stageBlock);
         }
+        const sectionHeight = canvas.height - MARGIN_TOP - MARGIN_BOTTOM;
+        const maxRowsPerPage = Math.floor(sectionHeight / blockWidth);
+        this.pageSize = (maxCol + 1) * maxRowsPerPage
+        this.maxPageNum = Math.ceil(this.stageList.length / this.pageSize);
+    }
+
+    initDisplayedStages() {
+        this.displayedStages = this.stageList.slice((this.pageNum - 1) * this.pageSize, this.pageNum * this.pageSize);
+        for (let i = 0; i < this.displayedStages.length; i++) {
+            const stageBlock = this.displayedStages[i];
+            const col = i % (maxCol + 1);
+            const row = Math.floor(i / (maxCol + 1));
+            const x = MARGIN_LEFT + col * (stageBlock.width + 2 * gutter) + gutter;
+            const y = MARGIN_TOP + row * (stageBlock.height + 2 * gutter) + gutter;
+            stageBlock.setPosition(x, y);
+        }
     }
 
     renderMainSection(ctx) {
@@ -125,16 +158,38 @@ export default class SelectStage {
         ContextUtils.strokeRoundRect(ctx, x, y, width, height, 8);
         ctx.clip();
         // 关卡列表小方块
-        this.drawStageList(context);
+        this.drawDisplayedStages(context);
         ctx.restore();
     }
 
 
-    drawStageList(ctx) {
-        for (let i = 0; i < this.stageList.length; i++) {
-            const stageBlock = this.stageList[i];
+    drawDisplayedStages(ctx) {
+        this.displayedStages = this.stageList.slice((this.pageNum - 1) * this.pageSize, this.pageNum * this.pageSize);
+        for (let i = 0; i < this.displayedStages.length; i++) {
+            const stageBlock = this.displayedStages[i];
+            const col = i % (maxCol + 1);
+            const row = Math.floor(i / (maxCol + 1));
+            const x = MARGIN_LEFT + col * (stageBlock.width + 2 * gutter) + gutter;
+            const y = MARGIN_TOP + row * (stageBlock.height + 2 * gutter) + gutter;
+            stageBlock.setPosition(x, y);
             stageBlock.drawToCanvas(ctx);
         }
+    }
+
+    initButtons() {
+        const width = canvas.width / 6;
+        const y = canvas.height - MARGIN_BOTTOM + 10;
+        this.buttons.push(new Button(context, 'prev', 'assets/prev.png', width, width, canvas.width / 3 - width / 2, y))
+        this.buttons.push(new Button(context, 'next', 'assets/next.png', width, width, 2 * canvas.width / 3 - width / 2, y))
+    }
+
+    render() {
+        // 背景
+        this.bg.render(context)
+        // 关卡列表区域
+        this.renderMainSection(context);
+        // 按钮
+        this.buttons.forEach(btn => btn.drawToCanvas(context))
     }
 
     async testa() {
