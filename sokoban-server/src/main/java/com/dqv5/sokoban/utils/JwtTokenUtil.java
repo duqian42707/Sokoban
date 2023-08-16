@@ -1,6 +1,7 @@
 package com.dqv5.sokoban.utils;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
@@ -23,11 +24,11 @@ public class JwtTokenUtil {
     /**
      * 过期时间
      */
-    public static final long EXPIRITION = 24 * 3600 * 1000;
+    public static final long EXPIRITION = 7 * 24 * 3600 * 1000;
     /**
      * 应用密钥
      */
-    public static final String APPSECRET_KEY = "sokoban_secret@123";
+    public static final String APP_SECRET_KEY = "sokoban_secret@123";
 
 
     private static final String USER_ID = "userId";
@@ -51,14 +52,14 @@ public class JwtTokenUtil {
                 .claim("username", account)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRITION))
-                .signWith(SignatureAlgorithm.HS256, APPSECRET_KEY).compact();
+                .signWith(SignatureAlgorithm.HS256, APP_SECRET_KEY).compact();
     }
 
     /**
      * 解析Token
      */
     public static Claims parseJWT(String token) {
-        return Jwts.parser().setSigningKey(APPSECRET_KEY).parseClaimsJws(token).getBody();
+        return Jwts.parser().setSigningKey(APP_SECRET_KEY).parseClaimsJws(token).getBody();
     }
 
     /**
@@ -109,7 +110,11 @@ public class JwtTokenUtil {
      * @return true: 已过期，false：没过期
      */
     public static boolean isExpiration(String token) {
-        Claims claims = parseJWT(token);
-        return claims.getExpiration().before(new Date());
+        try {
+            Claims claims = parseJWT(token);
+            return claims.getExpiration().before(new Date());
+        } catch (ExpiredJwtException e) {
+            return true;
+        }
     }
 }

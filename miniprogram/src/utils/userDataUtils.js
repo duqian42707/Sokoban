@@ -1,13 +1,13 @@
 import RequestUtils from "./requestUtils";
 import DataStore from "../base/dataStore";
-import Constants from "../base/constants";
+import {Config} from "../global";
 
 export default class UserDataUtils {
 
     static async loadServerData() {
         const resp = await RequestUtils.request({
             method: 'get',
-            url: Constants.SERVER_PREFIX + '/api/userData',
+            url: Config.SERVER_PREFIX + '/api/userData',
             data: {},
             needToken: true
         })
@@ -18,7 +18,7 @@ export default class UserDataUtils {
     static async uploadUserData({completeLevels}) {
         return await RequestUtils.request({
             method: 'post',
-            url: Constants.SERVER_PREFIX + '/api/userData',
+            url: Config.SERVER_PREFIX + '/api/userData',
             data: {
                 completeLevels: completeLevels
             },
