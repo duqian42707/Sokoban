@@ -3,10 +3,7 @@ package com.dqv5.sokoban.entity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Lob;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
 
 /**
@@ -21,6 +18,7 @@ public class UserData extends BaseEntity implements Serializable {
     @Id
     private String userId;
     @Lob
+    @Column(columnDefinition = "text")
     private String completeLevels;
 
 }
