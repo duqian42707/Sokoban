@@ -1,7 +1,6 @@
 package com.dqv5.sokoban.utils;
 
 import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
@@ -113,7 +112,7 @@ public class JwtTokenUtil {
         try {
             Claims claims = parseJWT(token);
             return claims.getExpiration().before(new Date());
-        } catch (ExpiredJwtException e) {
+        } catch (Exception e) {
             return true;
         }
     }
