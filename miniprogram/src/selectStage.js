@@ -9,7 +9,7 @@ import {DATA_LIST as DIFFICULT2} from "./data/difficult2";
 import Home from "./home";
 import ContextUtils from "./utils/contextUtils";
 import {StageMgmt} from "./runtime/stageMgmt";
-import {solveAll, xsbToBlocks} from "./utils/blockUtils";
+import {autoTransposition, blockToXSB, solveAll, transpositionSolve, xsbToBlocks} from "./utils/blockUtils";
 import {solve} from "./solve";
 import {Button} from "./base/button";
 
@@ -34,7 +34,7 @@ export default class SelectStage {
         this.offsetY = 0;
         this.gesture = new Gesture({onTap: this.tap, onSwipe: this.swipe, onPan: this.pan});
         this.init();
-        // this.testa();
+        this.testa();
     }
 
 
@@ -193,12 +193,32 @@ export default class SelectStage {
     }
 
     async testa() {
-        // solveAll(DIFFICULT2);
-        const blocks = xsbToBlocks(DATA_LIST[0].xsb)
-        const start = new Date().getTime()
-        await solve(blocks);
-        const end = new Date().getTime();
-        console.log("耗时：", end - start)
+        // // solveAll(DIFFICULT2);
+        // const blocks = xsbToBlocks(DATA_LIST[0].xsb)
+        // const start = new Date().getTime()
+        // await solve(blocks);
+        // const end = new Date().getTime();
+        // console.log("耗时：", end - start)
+
+        const newDataList = [];
+        for (let i = 0; i < DATA_LIST.length; i++) {
+            const data = DATA_LIST[i];
+            const blocks = xsbToBlocks(data.xsb);
+            const didTrans = autoTransposition(blocks);
+            if (didTrans) {
+                const newXsb = blockToXSB(blocks);
+                const newSolve = data.solve.map(transpositionSolve);
+                newDataList.push({
+                    xsb: newXsb,
+                    level: data.level,
+                    solve: newSolve
+                });
+            } else {
+                newDataList.push(data);
+            }
+        }
+
+        console.log('export const DATA_LIST=' + JSON.stringify(newDataList))
 
     }
 

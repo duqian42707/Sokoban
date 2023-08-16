@@ -10,6 +10,42 @@ export function transposition(blocks) {
     return blocks.map(item => new Block(item.type, item.row, item.col));
 }
 
+/**
+ * 将解答转置
+ * @param direction
+ * @returns {string}
+ */
+export function transpositionSolve(direction) {
+    if (direction === 'left') {
+        return 'up';
+    }
+    if (direction === 'right') {
+        return 'down';
+    }
+    if (direction === 'up') {
+        return 'left';
+    }
+    if (direction === 'down') {
+        return 'right';
+    }
+}
+
+
+export function autoTransposition(blocks) {
+    const maxXY = getMaxXY(blocks);
+    const maxX = maxXY.maxX;
+    const maxY = maxXY.maxY;
+    if (maxX > maxY) {
+        blocks.forEach(item => {
+            const {col, row} = item;
+            item.col = row;
+            item.row = col;
+        });
+        return true;
+    }
+    return false
+}
+
 
 /**
  * 删除若干行，后面的行往前补充

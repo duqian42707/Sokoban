@@ -1,4 +1,4 @@
-import {blockToXSB, deleteColumns, deleteRows, getMaxXY, xsbToBlocks} from "../utils/blockUtils";
+import {blockToXSB, deleteColumns, deleteRows, getMaxXY, transpositionSolve, xsbToBlocks} from "../utils/blockUtils";
 import {BlockType} from "./blockType";
 import CommonUtils from "../utils/commonUtils";
 
@@ -15,10 +15,6 @@ export class Stage {
         const maxXY = getMaxXY(this.blocks);
         this.maxX = maxXY.maxX;
         this.maxY = maxXY.maxY;
-
-        // todo 数据应该预处理好，否则答案对不上
-        this.autoDeleteRowCols();
-        this.autoTransposition();
     }
 
 
@@ -63,6 +59,9 @@ export class Stage {
         this.maxX = maxXY.maxX;
         this.maxY = maxXY.maxY;
         this.xsb = blockToXSB(this.blocks);
+        if (rowsToDelete.length > 0 || columnsToDelete.length > 0) {
+            console.log('auto delete row cols: ' + this.level)
+        }
     }
 
 
@@ -136,6 +135,7 @@ export class Stage {
                 item.row = col;
             });
             this.xsb = blockToXSB(this.blocks);
+            this.solve = this.solve.map(transpositionSolve);
         }
     }
 

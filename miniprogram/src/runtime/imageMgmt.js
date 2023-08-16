@@ -10,7 +10,7 @@ const imgSrcList = [
     'assets/arrow1.png',
     'assets/arrow2.png',
     'assets/reset.png',
-    'assets/solve.png',
+    'assets/question.png',
     'assets/select_stage.png',
     'assets/goback.png',
     'assets/prev.png',

@@ -87,10 +87,13 @@ export default class BoxGame {
         this.buttons.push(new Button(context, 'next', 'assets/arrow2.png', 120, 60, 2 * canvas.width / 3 - 60 + 50, 80))
 
         const width = canvas.width / 6;
-        this.buttons.push(new Button(context, 'selectStage', 'assets/select_stage.png', width, width, canvas.width / 4 - width / 2, 580))
-        this.buttons.push(new Button(context, 'reset', 'assets/reset.png', width, width, 2 * canvas.width / 4 - width / 2, 580))
-        this.buttons.push(new Button(context, 'back', 'assets/goback.png', width, width, 3 * canvas.width / 4 - width / 2, 580))
-        // this.buttons.push(new Button(context, 'solve', 'assets/solve.png', width, width, 3 * canvas.width / 4 - width / 2, 580))
+        const total = Config.SHOW_SOLVE ? 5 : 4;
+        this.buttons.push(new Button(context, 'selectStage', 'assets/select_stage.png', width, width, canvas.width / total - width / 2, 580))
+        this.buttons.push(new Button(context, 'reset', 'assets/reset.png', width, width, 2 * canvas.width / total - width / 2, 580))
+        this.buttons.push(new Button(context, 'back', 'assets/goback.png', width, width, 3 * canvas.width / total - width / 2, 580))
+        if (Config.SHOW_SOLVE) {
+            this.buttons.push(new Button(context, 'solve', 'assets/question.png', width, width, 4 * canvas.width / total - width / 2, 580))
+        }
     }
 
 
@@ -139,14 +142,13 @@ export default class BoxGame {
             this.gesture.clearGestureListener();
         }
         if (button.name === 'reset') {
-            // Confirm('确定要重置此关卡吗？', () => this.load(this.level));
             this.load(this.level);
         }
         if (button.name === 'back') {
             this.back();
         }
         if (button.name === 'solve') {
-            Confirm('确定要查看答案吗？', () => this.solve());
+            Confirm('需要查看参考答案吗？', () => this.solve());
         }
 
     }
