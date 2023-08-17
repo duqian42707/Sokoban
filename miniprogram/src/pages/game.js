@@ -1,16 +1,17 @@
-import {Config, context} from "./global";
-import {BlockType} from "./base/blockType";
-import {getMaxXY, setXYOfBlocks} from "./utils/blockUtils";
-import {Gesture} from "./gestureListener";
-import {KeyBoard} from "./keyboardListener";
-import BackGround from './runtime/backGround'
-import Music from "./runtime/music";
-import {Button} from "./base/button";
-import DataStore from "./base/dataStore";
-import CommonUtils from "./utils/commonUtils";
-import {StageMgmt} from "./runtime/stageMgmt";
-import Home from "./home";
-import UserDataUtils from "./utils/userDataUtils";
+import {Config, context} from "../base/global";
+import {BlockType} from "../base/blockType";
+import {getMaxXY, setXYOfBlocks} from "../utils/blockUtils";
+import {Gesture} from "../listeners/gestureListener";
+import {KeyBoard} from "../listeners/keyboardListener";
+import BackGround from '../runtime/backGround'
+import Music from "../runtime/music";
+import {Button} from "../base/button";
+import DataStore from "../base/dataStore";
+import CommonUtils from "../utils/commonUtils";
+import {StageMgmt} from "../runtime/stageMgmt";
+import Index from "../index";
+import UserDataUtils from "../utils/userDataUtils";
+import {PageMgmt} from "../runtime/pageMgmt";
 
 const MARGIN_LEFT = 25;
 const MARGIN_TOP = 135;
@@ -18,8 +19,6 @@ const MARGIN_TOP = 135;
 export default class BoxGame {
 
     constructor(level) {
-        this.home = new Home();
-
         this.bg = new BackGround();
         this.music = new Music()
 
@@ -49,8 +48,6 @@ export default class BoxGame {
             await CommonUtils.wait(300);
             await this.load(this.level + 1);
         };
-        this.init();
-
     }
 
     init() {
@@ -65,7 +62,6 @@ export default class BoxGame {
      * 每一帧重新绘制所有的需要展示的元素
      */
     render() {
-        console.log('render...')
         context.clearRect(0, 0, canvas.width, canvas.height)
         this.bg.render(context)
         this.blocks.forEach(item => item.drawToCanvas(context))
@@ -74,6 +70,7 @@ export default class BoxGame {
         context.font = "30px Arial"
         context.textAlign = 'center'
         context.fillText('第 ' + this.level + ' 关', canvas.width / 2, 120, 80)
+        context.fillText('步数：' + this.historySteps.length, canvas.width / 2, 160, 80)
     }
 
     /**
@@ -137,7 +134,7 @@ export default class BoxGame {
             this.load(this.level + 1);
         }
         if (button.name === 'selectStage') {
-            this.home.toSelectStage();
+            PageMgmt.toSelectStage();
             this.keyboard.clearKeyboardListener();
             this.gesture.clearGestureListener();
         }
@@ -278,7 +275,6 @@ export default class BoxGame {
 
     back() {
         const steps = this.historySteps.pop();
-        console.log('back', steps)
         if (steps) {
             for (let i = 0; i < steps.length; i++) {
                 const stepInfo = steps[i];

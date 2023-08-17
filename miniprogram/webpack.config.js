@@ -4,7 +4,7 @@ module.exports = function (env = {}) {
     return {
         cache: false,
         mode: env.production ? 'production' : 'development',
-        entry: './src/index',
+        entry: './src/main',
         output: {
             path: path.resolve(__dirname, 'js'),
             filename: 'app.js',

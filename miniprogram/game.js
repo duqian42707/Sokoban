@@ -1,8 +1,6 @@
 import './src/libs/weapp-adapter'
 import './src/libs/symbol'
 import './src/libs/weapp-adapter-ext'
-import Home from './src/home';
+import Index from "./src/index";
 
-const home = new Home();
-home.init();
-
+new Index();

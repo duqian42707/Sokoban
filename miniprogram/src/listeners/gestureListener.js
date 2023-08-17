@@ -1,4 +1,4 @@
-import Hammer from "./libs/hammer.min";
+import Hammer from "../libs/hammer.min";
 
 export class Gesture {
 

@@ -1,6 +1,6 @@
 import RequestUtils from "./requestUtils";
 import DataStore from "../base/dataStore";
-import {Config} from "../global";
+import {Config} from "../base/global";
 
 export default class LoginUtils {
     static async login() {

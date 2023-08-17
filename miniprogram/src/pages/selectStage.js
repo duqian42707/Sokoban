@@ -1,17 +1,12 @@
-import BackGround from "./runtime/backGround";
-import {context} from "./global";
-import {StageBlock} from "./base/stageBlock";
-import {Gesture} from "./gestureListener";
-import DataStore from "./base/dataStore";
-import {DATA_LIST} from "./data/data1";
-import {DATA_LIST as DATA_LIST2} from "./data/data2";
-import {DATA_LIST as DIFFICULT2} from "./data/difficult2";
-import Home from "./home";
-import ContextUtils from "./utils/contextUtils";
-import {StageMgmt} from "./runtime/stageMgmt";
-import {autoTransposition, blockToXSB, solveAll, transpositionSolve, xsbToBlocks} from "./utils/blockUtils";
-import {solve} from "./solve";
-import {Button} from "./base/button";
+import BackGround from "../runtime/backGround";
+import {context} from "../base/global";
+import {StageBlock} from "../base/stageBlock";
+import {Gesture} from "../listeners/gestureListener";
+import DataStore from "../base/dataStore";
+import {DATA_LIST} from "../data/data1";
+import ContextUtils from "../utils/contextUtils";
+import {Button} from "../base/button";
+import {PageMgmt} from "../runtime/pageMgmt";
 
 const MARGIN_LEFT = 20;
 const MARGIN_TOP = 110;
@@ -23,18 +18,13 @@ export default class SelectStage {
 
     constructor() {
         this.bg = new BackGround();
-        this.home = new Home();
         this.pageNum = 1;
         this.pageSize = 30;
         this.maxPageNum = 1;
         this.stageList = [];
         this.displayedStages = [];
         this.buttons = [];
-        this.lastOffsetY = 0;
-        this.offsetY = 0;
         this.gesture = new Gesture({onTap: this.tap});
-        this.init();
-        // this.testa();
     }
 
 
@@ -43,7 +33,7 @@ export default class SelectStage {
         const stage = this.displayedStages.find(item => item.isTapped(center.x, center.y))
         if (stage != null) {
             this.gesture.clearGestureListener();
-            this.home.loadGame(stage.level);
+            PageMgmt.toGame(stage.level);
         }
         const button = this.buttons.find(item => item.isTapped(center.x, center.y))
         if (button != null && button.name === 'prev') {
@@ -54,55 +44,6 @@ export default class SelectStage {
             this.pageNum = this.pageNum === this.maxPageNum ? 1 : (this.pageNum + 1);
             this.render();
         }
-    }
-
-    pan = async (evt) => {
-        if (evt.direction === 8 || evt.direction === 16) {
-            const firstStageBlock = this.stageList[0];
-            const lastStageBlock = this.stageList[this.stageList.length - 1];
-            if (firstStageBlock.y + this.lastOffsetY + evt.deltaY > MARGIN_TOP + 10) {
-                this.lastOffsetY = 0;
-                return;
-            }
-            if (lastStageBlock.y + this.lastOffsetY + evt.deltaY < canvas.height - MARGIN_BOTTOM - MARGIN_TOP + 20) {
-                this.lastOffsetY = canvas.height - MARGIN_BOTTOM - lastStageBlock.y - 20;
-                return;
-            }
-
-            this.offsetY = this.lastOffsetY + evt.deltaY;
-            window.requestAnimationFrame(this.swipeAnimate);
-            if (evt.isFinal) {
-                console.log('pan', evt)
-                this.lastOffsetY = this.offsetY;
-            }
-        }
-    }
-
-    swipe = async (evt) => {
-        // console.log('swipe', evt)
-        if (evt.direction === 8) {
-            // up
-            this.offsetY = -100;
-        } else if (evt.direction === 16) {
-            // down
-            this.offsetY = 100;
-        } else {
-            return;
-        }
-
-        this.process = 0;
-        window.requestAnimationFrame(this.swipeAnimate)
-    }
-
-    swipeAnimate = () => {
-        this.stageList.forEach(stageBlock => {
-            stageBlock.offsetY = this.offsetY
-        })
-        context.save();
-        this.bg.render(context)
-        this.renderMainSection(context);
-        context.restore();
-        this.process += 1;
     }
 
     async init() {
@@ -191,57 +132,5 @@ export default class SelectStage {
         // 按钮
         this.buttons.forEach(btn => btn.drawToCanvas(context))
     }
-
-    async testa() {
-        // // solveAll(DIFFICULT2);
-        // const blocks = xsbToBlocks(DATA_LIST[0].xsb)
-        // const start = new Date().getTime()
-        // await solve(blocks);
-        // const end = new Date().getTime();
-        // console.log("耗时：", end - start)
-
-        const newDataList = [];
-        for (let i = 0; i < DATA_LIST.length; i++) {
-            const data = DATA_LIST[i];
-            const blocks = xsbToBlocks(data.xsb);
-            const didTrans = autoTransposition(blocks);
-            if (didTrans) {
-                const newXsb = blockToXSB(blocks);
-                const newSolve = data.solve.map(transpositionSolve);
-                newDataList.push({
-                    xsb: newXsb,
-                    level: data.level,
-                    solve: newSolve
-                });
-            } else {
-                newDataList.push(data);
-            }
-        }
-
-        console.log('export const DATA_LIST=' + JSON.stringify(newDataList))
-
-    }
-
-    async test1() {
-        const groups = []
-        let list = DATA_LIST2;
-        for (let i = 0; i < list.length; i++) {
-            const data = list[i];
-            const solve = JSON.stringify(data.solve);
-            const data0 = DATA_LIST.find(x => JSON.stringify(x.solve) === solve);
-            if (data0) {
-                data['del'] = true;
-                if (data0.xsb !== data.xsb.trim()) {
-                    groups.push([data0.xsb, data.xsb.trim()])
-                }
-            }
-        }
-        console.log(list.length);
-        list = list.filter(x => !(x.del === true))
-        console.log(groups);
-        list = StageMgmt.sortByDifficult(list, 87);
-        console.log('export const DATA_LIST = ' + JSON.stringify(list));
-    }
-
 
 }

@@ -1,5 +1,5 @@
 import PureColorSprite from "../base/pureColorSprite";
-import {Config} from "../global";
+import {Config} from "../base/global";
 
 const screenWidth = window.innerWidth
 const screenHeight = window.innerHeight

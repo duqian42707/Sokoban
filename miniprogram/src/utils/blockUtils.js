@@ -1,6 +1,6 @@
 import {Block} from "../base/block";
 import {BlockType} from "../base/blockType";
-import {solve} from "../solve";
+import {solve} from "./solve";
 
 /**
  * 行列转置

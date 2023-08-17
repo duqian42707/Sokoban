@@ -1,7 +1,7 @@
 // 墙，箱子，目标，人
 // {trees, buckets, spots, man};
 
-import {BlockType} from "./base/blockType";
+import {BlockType} from "../base/blockType";
 
 export async function solve(data) {
     return new Promise(resolve => {
