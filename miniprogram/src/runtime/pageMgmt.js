@@ -28,7 +28,7 @@ export class PageMgmt {
         if (this.game == null) {
             this.game = new BoxGame(level);
         }
-        this.game.init();
+        this.game.init(level);
     }
 
     static toSelectStage() {

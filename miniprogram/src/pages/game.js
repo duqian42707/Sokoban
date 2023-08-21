@@ -50,10 +50,9 @@ export default class BoxGame {
         };
     }
 
-    init() {
-        console.log('init game ' + this.level);
+    init(level) {
         this.initButtons();
-        this.load(this.level);
+        this.load(level);
     }
 
 
