@@ -1,5 +1,7 @@
 # 推箱子
 
+![简约推箱子](docs/image/minicode.png)
+
 ## 功能列表
 
 ### v1.0 版本功能
