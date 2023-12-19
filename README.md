@@ -65,9 +65,19 @@
 - 查看答案
 - 保存动图或视频
 
+## 相关技术
+
+- canvas : 画布，用于绘制游戏界面
+- [hammerjs](https://hammerjs.github.io/)：前端触摸手势插件
+- Spring Boot：后端框架
+
 ## 灵感来源
 
 - https://github.com/akira-cn/boxbox
+
+## 相关资料
+
+- http://sokoban.cn/
 
 ## 其他
 
