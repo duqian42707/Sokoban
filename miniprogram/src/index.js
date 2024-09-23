@@ -17,9 +17,9 @@ export default class Index {
     async init() {
         console.log('Index init.')
         await this.loadImages();
-        if (wx) {
-            await UserDataUtils.loadServerData();
-        }
+        // if (wx) {
+        //     await UserDataUtils.loadServerData();
+        // }
         // PageMgmt.toHomePage();
         PageMgmt.toSelectStage();
         // PageMgmt.toTestPage();

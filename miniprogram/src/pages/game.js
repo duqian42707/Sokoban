@@ -41,10 +41,10 @@ export default class BoxGame {
             this.gesture.clearGestureListener();
             this.keyboard.clearKeyboardListener();
             DataStore.putCompleteLevel(this.level);
-            if (wx) {
-                const completeLevels = DataStore.getCompleteLevels();
-                await UserDataUtils.uploadUserData({completeLevels})
-            }
+            // if (wx) {
+            //     const completeLevels = DataStore.getCompleteLevels();
+            //     await UserDataUtils.uploadUserData({completeLevels})
+            // }
             await CommonUtils.wait(300);
             await this.load(this.level + 1);
         };
